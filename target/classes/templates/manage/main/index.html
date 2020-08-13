@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="shared/_layout::header('德仁医院')">
+<meta charset="UTF-8">
+<title>医护管理</title>
+</head>
+<style>
+	html, body {
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		font-size: 14px;
+		font-family: 'Microsoft Yahei', 'PingFangSC', 'Helvetica', 'Arial';
+		background: #eee;
+	}
+	.tree > li > .tree-node{
+		color: rgba(255,255,255,0.5);
+		background:#424F63;
+		padding: 8px 20px 8px 0px;
+		}
+	.tree > li > .tree-node > .tree-expanded{
+		    background: url("/img/nav_left_close.png") no-repeat center center;
+	}
+	.tree > li > .tree-node > .tree-collapsed{
+		    background: url("/img/nav_left_open.png") no-repeat center center;
+	}
+	.tree > li > ul > li > .tree-node{
+		color: #FFF; 
+		padding: 4px 0;
+	}
+	.tree > li > ul > li > .tree-node-selected{
+		background:url('/img/nav_left_xq.png') no-repeat center center;
+		color: #FA3; 
+		background-position-x: 155px;
+	}
+	.tree > li > ul > li > .tree-node:hover{
+		background:url('/img/nav_left_xq.png') no-repeat center center;
+		color: #FA3; 
+		background-position-x: 155px;
+	}
+</style>
+<body style="padding-bottom: 20px;">
+<div class="easyui-layout" data-options="fit:true,border:false">
+	<div data-options="region:'north',border:false" style="height: 81px;padding: 0 20px;border-bottom: 1px solid #3C4759;;background: #3C4759;">
+		<div class="main-title-left">
+		 		<img src="/img/logo3.png" alt="" style="width:548px;height: 64px">
+		 	</div>
+		<div class="main-title-right">
+		 		<a class="title-welcome">欢迎您，<span th:text="${name}"></span></a>
+		 		<a href="javascript:void(0)" onclick="changePwd()"><i class="fa fa-lock" style="margin-right: 8px;"></i>修改密码</a>
+		 		<a href="/login/index"><i class="fa fa-sign-out"></i> 退出登录</a>
+		 	</div>
+	</div>
+	<div data-options="region:'west',border:false" style="width:200px;background:#3C4759;">
+		<div class="easyui-panel" data-options="fit:true,border:false" style="background:#3C4759;">
+			<ul class="easyui-tree" id="tt" ></ul>
+		</div>
+	</div>
+	<div data-options="region:'center',border:false">
+		<div class="loader">
+	         <div class="loader-mask"></div>
+	         <div class="loader-message">
+	             <img src="/easyui/themes/default/images/loading.gif" />
+	             <span>加载中...</span>
+	         </div>
+	     </div>
+		 <iframe src="/factory/main/home"style="border: none; width: 100%;height: 99%;" frameborder="0" scrolling="no" id="iframemain" onLoad="ajaxLoadEnd()"></iframe>
+		<div data-options="region:'south',border:false" style="text-align: center; color: #999;font-size: 10px !important;padding:2px;">技术支持：陕西天远电子科技有限公司</div>
+	</div>
+	
+</div>
+	<div id="dlgpwd" class="easyui-dialog" style="width: 400px; padding: 20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgpwd-buttons'">
+	</div>
+	<div id="dlgpwd-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconcls="icon-ok" onclick="savePwd()" style="width: 90px">确定</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlgpwd').dialog('close')" style="width: 90px">取消</a>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			makeTree();
+		})
+		function makeTree() {
+	    	 $('#tt').tree({
+		            url: '/factory/main/tree',
+		            method:'GET',
+		            onClick: function (node) {
+		                if (node.state == 'open') $('#tt').tree('collapse', node.target);
+		                else $('#tt').tree('expand', node.target);
+			 			if(node.attributes!=null && node.attributes!='') {
+				 			ajaxLoading();
+			 				$('#iframemain').attr('src',node.attributes);
+			 			}
+		            },
+		            onLoadSuccess: function (node, data) {
+		                $('#tt .tree-title').css('font-size', '13px');
+		                $('#tt .tree-node').css('height', '23px');
+		                $('#tt .tree-icon').removeClass('tree-file');
+		                //$('#tt .tree-icon').removeClass('tree-folder tree-folder-open');
+		                $('#tt .tree-icon').css("background","url(/img/nav_left_jb.png) no-repeat center center");
+		            }
+		        });
+	    }
+		function changePwd(){
+		 	    $('#dlgpwd').dialog({ href: '/factory/main/changepwd', title: '修改密码' }).dialog('open').dialog('center');
+		 	}
+		
+		function savePwd(){
+	 		$('#dlgpwd').find('form:eq(0)').form('submit', {
+				url : '/factory/main/changepwd',
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(result) {
+					$('#dlgpwd').dialog('close');
+					var result = eval('(' + result + ')');
+					messageAlert('提示', result.message, 'info');
+				}
+			});
+	 	}
+		//loader显示
+	    function ajaxLoading() {
+	        $('.loader').show();
+	    }
+		//loader隐藏
+	    function ajaxLoadEnd() {
+	        $('.loader').hide();
+	    }
+		
+	</script>
+</body>
+</html>

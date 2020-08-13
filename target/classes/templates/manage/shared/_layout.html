@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+<meta charset="UTF-8">
+<title th:text="${title}">title</title>
+<link rel="shortcut icon" href="/images/favicon.ico">
+<link rel="stylesheet" href="/easyui/themes/gray/easyui.css">
+<link rel="stylesheet" th:href="${'/easyui/super/superBlue.css?_='+(new java.util.Date().getTime())}">
+<link rel="stylesheet" href="/easyui/super/manage.css">
+<link rel="stylesheet" type="text/css" href="/kindeditor/themes/default/default.css" />
+<link rel="stylesheet" href="/easyui/themes/icon.css">
+<script src="/easyui/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="/easyui/jquery.common.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="${'/easyui/super/super.js?_='+(new java.util.Date().getTime())}" charset="utf-8"></script>
+<script src="/kindeditor/kindeditor-all-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/kindeditor/lang/zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<style>
+#iframeScreen{
+	width:100%;
+	height: 160%;
+}
+</style>
+</head>
+<body>
+<div th:fragment="screen">
+	<form id="uploadForm" action="/manage/file/image" method="post" enctype="multipart/form-data" style="display:none;">
+		<input type="hidden" name="mDir" id="mDir" />
+		<input type="file" name="mFile" id="mFile" />
+	</form>
+	<div id="dlgscreen" class="easyui-dialog" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgscreen-buttons',fit:true">
+		<iframe id="iframeScreen" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+	</div>
+	<div id="dlgscreen-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript: $('#dlgscreen').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">关闭</a>
+	</div>
+</div>
+</body>
+</html>

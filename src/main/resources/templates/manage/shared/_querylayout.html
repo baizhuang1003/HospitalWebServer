@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+<meta name="viewport" content="width=device-width" />
+<title th:text="${title}">title</title>
+<link rel="stylesheet" href="/easyui/themes/gray/easyui.css">
+<link th:href="${'/easyui/themes/icon.css?_='+(new java.util.Date().getTime())}" rel="stylesheet" />
+<link th:href="${'/easyui/themes/color.css?_='+(new java.util.Date().getTime())}" rel="stylesheet" />
+<script src="/easyui/jquery.min.js"></script>
+<script src="/easyui/jquery.easyui.min.js"></script>
+<script src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script th:src="${'/easyui/jquery.common.js?_='+(new java.util.Date().getTime())}"></script>
+<style>
+    body {
+    	font-family: verdana,helvetica,arial,sans-serif;
+        font-size: 12px;
+        margin: 0;
+        background:url(/images/query/bg.png) no-repeat;
+        filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";  
+        -moz-background-size:100% 100%;  
+        background-size:100% 100%;  
+        background-attachment: fixed;
+	}
+	#logobox{
+		width:660px; 
+		margin:0 auto;
+		margin-top:80px;
+		text-align:center;
+	}
+	#querybox{
+		width:660px; 
+		margin:0 auto;
+	}
+	#logobox img{
+		height:180px;
+		width:470px;
+	}
+	.option{  
+		margin:50px auto;
+		position:relative;
+		text-align: center
+	}
+	.option img{ 
+		width: 280px;
+	}
+	.option a{
+		padding: 20px;
+	    background: rgba(255,255,255,0.3);
+	    display: inline-block;
+	    margin: 10px 20px;
+	    border-radius: 10px;
+	}
+	.querytitle{ 
+		text-align:center;
+		color:#00a3ea;
+		line-height:60px;
+		font-size:28px;
+		font-family:"Segoe UI", Verdana, Helvetica, Sans-Serif;
+		margin:0;
+		padding:0; 
+	}
+	@media screen and (max-width: 720px) {
+	    body {
+		    background: url(/images/query/bg.png) no-repeat;
+		}
+	    .option{
+	    	margin-left: calc(100% - 220px);
+	    }
+	}
+    #resultbox{
+	    margin:20px;
+	    padding:0;
+	    display:none;
+	    
+    }
+	#resultheader{
+		margin:0;
+		padding:0;
+		line-height:40px;
+		padding-left:10px; 
+		background:#f2f2f2;
+		font-size:14px;
+	}
+	#resultheader a{
+		color:#08c;
+		text-decoration:none;
+	}
+	#resultheader a:hover{
+		color:blue;
+	}
+	#resultheader i{
+		margin:0 3px;
+		color:#08c;
+	}
+	.mtable{
+		width:100%;
+		font-size:13px;
+	}
+	.mtable tr,.mtable td{
+		border:1px solid #ddd;
+		padding:8px;
+		border-left:none;
+		border-bottom:none;
+	}
+	.mtable tr td:first-child{
+		border-left:1px solid #ddd;
+	}
+	.mtable tr:last-child td{
+		border-bottom:1px solid #ddd;
+	}
+	.mtable td:nth-child(1){ 
+		color: #808080;
+		text-align: right;
+	}
+	.mtable td:nth-child(2){
+		color: #1A1A1A; 
+		text-align: left;
+	}
+</style>
+</head>
+<body>
+<div id="logobox" th:fragment="logobox">
+	<img src="/images/query/logotitle.png" />
+</div>
+</body>
+</html>

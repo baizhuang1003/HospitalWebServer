@@ -7,7 +7,7 @@ package com.tianyuan.bean;
  */
 public class NurseryBean {
 
-	private int id,status;
+	private int id,code,status;
 	private String name,remark;
 	public int getId() {
 		return id;
@@ -33,6 +33,13 @@ public class NurseryBean {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	public int getCode() {
+		return code;
+	}
+	public void setCode(int code) {
+		this.code = code;
+	}
+	
 	
 	
 }

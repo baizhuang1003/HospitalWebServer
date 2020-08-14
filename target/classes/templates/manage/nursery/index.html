@@ -1,10 +1,114 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="manage/shared/_layout::header('托养方式设置')">
 </head>
 <body>
+<div class="easyui-layout" data-options="fit:true">
+    <div id="north" data-options="region:'north'" style="height:38px; ">
+        <th>
+    		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
+    	</th>
+        <th>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-edit'" onclick="editModel()">修改</a>
+        </th>
+        <th>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
+        </th>
+    </div>
+    <div data-options="region:'center',iconCls:'icon-grid'">
+        <table id="dg"></table>
+    </div>
+</div>
+<div id="dlg" class="easyui-dialog" style="width:400px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveModel()" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
+</div>
+<script type="text/javascript">
+$(function(){
+	makeGrid();
+})
+function makeGrid() {
+	$('#dg').datagrid({
+		url: '/manage/nursery/list',
+		idField: 'id',
+		rownumbers: true,
+		singleSelect: true,
+		queryParams: {},
+		fit:true,
+		pagination: true,
+		rownumbers:true,
+		pageSize: 20,
+		pageList: [10, 20, 30, 40, 50],
+		columns: [
+        	[
+        		{ field:'id',title:'编号',width:150,align:'center' },
+        		//{ field:'region',title:'地区编码',width:120,align:'center' },
+        		{ field:'name',title:'名称',width:250,align:'center' },
+        		{ field:'status',title:'状态(是否可用)',width:160,align:'center',formatter:function(value){ 
+        			if(value==0){ return "是"; } 
+        			else if(value==1){ return "否";} 
+    				else {return "";}
+        			} },
+        		{ field:'remark',title:'备注',width:160,align:'center' },
+        		
+        	]
+        ]
+	});
+}
+//添加
+function newModel() {
+    $('#dlg').dialog({ href: '/manage/nursery/edit?id=', title: '添加' }).dialog('open').dialog('center');
+}
 
+function newModel() {
+    $('#dlg').dialog({ href: '/manage/nursery/edit?id=', title: '添加' }).dialog('open').dialog('center');
+}
+//修改
+function editModel() {
+    var row = $('#dg').datagrid('getSelected');
+    if (row) {
+        $('#dlg').dialog({ href: '/manage/nursery/edit?id='+row.id, title: '编辑' }).dialog('open').dialog('center');
+    }
+}
+//删除
+function destroyModel() {
+    var row = $('#dg').datagrid('getSelected');
+    if (row) {
+        $.messager.confirm('提示', '确定要删除吗?', function (r) {
+            if (r) {
+                $.post('/manage/nursery/delete', { id: row.id }, function (result) {
+                    if (result.code=='200') {
+                        $('#dg').datagrid('reload');
+                    } else {
+                        messageAlert('提示', result.message, 'error');
+                    }
+                }, 'json');
+            }
+        });
+    }
+}
+//保存
+function saveModel() {
+	$('#dlg').find('#status').val($('input[name=stateRadio]:checked').val());
+    $('#dlg').find('form:eq(0)').form('submit', {
+        url: '/manage/nursery/edit',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var result = eval('(' + result + ')');
+            if (result.code!='200') {
+                messageAlert('提示', result.message, 'error');
+            } else {
+                $('#dlg').dialog('close');        // close the dialog
+                $('#dg').datagrid('reload');    // reload the user data
+            }
+        }
+    });
+}
+
+</script>
 </body>
 </html>

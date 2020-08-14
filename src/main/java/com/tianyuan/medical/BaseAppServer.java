@@ -13,6 +13,7 @@ import com.tianyuan.repository.NurseryRepository;
 import com.tianyuan.repository.OrganizationRepository;
 import com.tianyuan.repository.ProtocolRepository;
 import com.tianyuan.repository.ServiceItemsRepository;
+import com.tianyuan.repository.UserRepository;
 @Configuration
 @EnableCaching
 
@@ -50,5 +51,9 @@ public class BaseAppServer extends CachingConfigurerSupport {
 	@Bean
 	ProtocolRepository protocolRepository() {
 		return new ProtocolRepository();
+	}
+	@Bean
+	UserRepository userRepository() {
+		return new UserRepository();
 	}
 }

@@ -1,131 +1,330 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="shared/_layout::header('德仁医院')">
-<meta charset="UTF-8">
-<title>医护管理</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="manage/shared/_layout::header('首页')">
 </head>
+<script type="text/javascript">
+history.pushState(null, null, document.URL);
+window.addEventListener('popstate', function () {
+	history.pushState(null, null, document.URL);
+});
+window.onbeforeunload = function (event) {
+	clearCookie();
+}
+function clearCookie() {
+	var expires = new Date();
+	expires.setTime(expires.getTime() - 10);
+	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+	if (keys) {
+		document.cookie ='360C3B38A68F4A6=0;path=/;expires=' + expires;
+		/*for (var i = keys.length; i--;) {
+			document.cookie = keys[i].trim() + '=0;path=/;expires=' + expires;
+		}*/
+	}
+}
+</script>
 <style>
-	html, body {
-		height: 100%;
-		width: 100%;
-		overflow: hidden;
-		font-size: 14px;
-		font-family: 'Microsoft Yahei', 'PingFangSC', 'Helvetica', 'Arial';
-		background: #eee;
-	}
-	.tree > li > .tree-node{
-		color: rgba(255,255,255,0.5);
-		background:#424F63;
-		padding: 8px 20px 8px 0px;
-		}
-	.tree > li > .tree-node > .tree-expanded{
-		    background: url("/img/nav_left_close.png") no-repeat center center;
-	}
-	.tree > li > .tree-node > .tree-collapsed{
-		    background: url("/img/nav_left_open.png") no-repeat center center;
-	}
-	.tree > li > ul > li > .tree-node{
-		color: #FFF; 
-		padding: 4px 0;
-	}
-	.tree > li > ul > li > .tree-node-selected{
-		background:url('/img/nav_left_xq.png') no-repeat center center;
-		color: #FA3; 
-		background-position-x: 155px;
-	}
-	.tree > li > ul > li > .tree-node:hover{
-		background:url('/img/nav_left_xq.png') no-repeat center center;
-		color: #FA3; 
-		background-position-x: 155px;
-	}
+.super-north .super-navigation-title{
+	color: #FFF;
+	padding-left: 0px;
+}
+.menu {
+    width: 118px !important;
+    border-width: 0 1px 1px 1px;
+}
+.menu-item{
+	height: 48px !important;
+    line-height: 48px !important;
+}
+.menu-text {
+    padding-left: 0;
+    text-align: center;
+    width: -webkit-fill-available;
+    font-size: 14px;
+    height: 48px !important;
+    line-height: 48px !important;
+}
+.menu-item:hover .menu-text{
+	color: #4474FF;
+}
+.super-west{
+	background: #FFF;
+	width: 200px;
+}
+#nav-list > li{
+    color: #FFFFFF;
+}
+#nav-list > li > .tree-node {
+    color: #000000;
+    background: #F5F5F5;
+    padding: 8px 20px 8px 0px;
+    font-weight: bolder;
+    font-weight: bolder;
+    border: 0.2px #DDD solid;
+}
+.tree-node{
+    white-space: nowrap;
+    cursor: pointer;
+    background: #FFFFFF;
+    color: #fff;
+    padding: 0 10px;
+    height: 42px;
+}
+.tree-title {
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 0 2px;
+    height: 42px;
+    line-height: 42px;
+    font-size: 13px !important;
+}
+#nav-list > li > ul > li > .tree-node {
+    color: #333;
+    padding: 4px 0;
+}
+#nav-list > li > .tree-node > .tree-expanded {
+    background: url(/images/nav_left_close.png) no-repeat center center;
+}
+#nav-list > li > .tree-node > .tree-collapsed {
+    background: url(/images/nav_left_open.png) no-repeat center center;
+}
+#nav-list > li > .tree-node > .icon-layout{
+    background: url(/images/nav_left_1.png) no-repeat center center;
+}
+#nav-list > li >ul > li > .tree-node >.tree-indent:nth-child(2){
+    background: url(/images/nav_active_close.png) no-repeat center center;
+}
+#nav-list > li >ul > li > .tree-node-selected{
+    background: #1c68bc;
+    color: #FFF;
+    background-position-x: 155px;
+}
+#nav-list > li >ul > li > .tree-node:hover{
+	background: #1c68bc;
+    color: #FFF;
+    background-position-x: 155px;
+}
+.top-zx{
+	background: url(/images/top_zx.png) no-repeat center center;
+}
+.top-bz{
+	background: url(/images/top_bz.png) no-repeat center center;
+}
+.top-tz{
+	background: url(/images/top_tz.png) no-repeat center center;
+}
+.top-dy{
+	background: url(/images/top_dy.png) no-repeat center center;
+}
+.layout-panel-east, .layout-panel-west {
+    z-index: 2;
+    border-right: 1px solid #DDD;
+}
 </style>
-<body style="padding-bottom: 20px;">
-<div class="easyui-layout" data-options="fit:true,border:false">
-	<div data-options="region:'north',border:false" style="height: 81px;padding: 0 20px;border-bottom: 1px solid #3C4759;;background: #3C4759;">
-		<div class="main-title-left">
-		 		<img src="/img/logo3.png" alt="" style="width:548px;height: 64px">
-		 	</div>
-		<div class="main-title-right">
-		 		<a class="title-welcome">欢迎您，<span th:text="${name}"></span></a>
-		 		<a href="javascript:void(0)" onclick="changePwd()"><i class="fa fa-lock" style="margin-right: 8px;"></i>修改密码</a>
-		 		<a href="/login/index"><i class="fa fa-sign-out"></i> 退出登录</a>
-		 	</div>
-	</div>
-	<div data-options="region:'west',border:false" style="width:200px;background:#3C4759;">
-		<div class="easyui-panel" data-options="fit:true,border:false" style="background:#3C4759;">
-			<ul class="easyui-tree" id="tt" ></ul>
+<body id="main" class="easyui-layout">
+	<div data-options="region:'north',border:false" class="super-north">
+		<!--顶部-->
+		<div class="super-navigation">
+			<!--系统名称-->
+			<div class="super-navigation-title"><span style="display: inline-block;"><img src="/images/tylogo.png" style="height: 52px;display: inline-block;"></span><span>工程机械综合管理服务系统</span></div>
+			<!--自定义导航-->
+			<div class="super-navigation-main">
+				<div class="super-setting-left">
+					<ul>
+						<li onclick="window.open('tencent://message/?uin=1570218266');"><i class="fa fa-commenting-o top-zx"></i>技术咨询</li>
+						<li><i class="fa fa-envelope-o top-bz"></i>帮助</li>
+						<li onclick="openUrl('历史通知','/manage/main/noticelist');"><i class="fa fa-bell-o top-tz"></i>历史通知</li>
+						<li onclick="openUrl('打印组件','/manage/main/printcomponent');"><i class="fa fa-print top-dy"></i>打印组件</li>
+					</ul>
+				</div>
+				<div class="super-setting-right">
+					<ul>
+						<li class="user" id="user">
+							<span class="user-icon"><img src="/images/tx.png"/></span>
+							<span th:text="${entity.user.name}">超级管理员</span>
+							<div id="mm" class="easyui-menu">
+								<!-- <div id="profileSetting">个人信息</div> -->
+								<div id="changePwd">修改密码</div>
+								<div id="logout">退出</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div data-options="region:'center',border:false">
-		<div class="loader">
-	         <div class="loader-mask"></div>
-	         <div class="loader-message">
-	             <img src="/easyui/themes/default/images/loading.gif" />
-	             <span>加载中...</span>
-	         </div>
-	     </div>
-		 <iframe src="/factory/main/home"style="border: none; width: 100%;height: 99%;" frameborder="0" scrolling="no" id="iframemain" onLoad="ajaxLoadEnd()"></iframe>
-		<div data-options="region:'south',border:false" style="text-align: center; color: #999;font-size: 10px !important;padding:2px;">技术支持：陕西天远电子科技有限公司</div>
+		
 	</div>
 	
+	<div data-options="region:'west',border:false" class="super-west">
+		<ul id="nav-list">
+		</ul>
+	</div>
+	
+	<div data-options="region:'center'" style="border: none; padding: 6px 0 6px 6px; ">
+		<!--主要内容-->
+		<div class="loader">
+            <div class="loader-mask"></div>
+            <div class="loader-message">
+                <!-- <img src="~/Content/Easyui/themes/default/images/loading.gif" />
+                <span>加载中...</span> -->
+            </div>
+        </div>
+		<div id="tt" class="easyui-tabs" data-options="tools:'#tab-tools'">
+	    </div>
+	    <div id="tab-tools">
+	           <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" onclick="tabsReload()"></a>
+	    </div>
+	</div>
+	<div data-options="region:'east',split:true" style="width: 0px; background: #FFFFFF; border: none;">
+    </div>
+	<div data-options="region:'south',split:true,border:false" style="height: 40px; line-height: 39px; padding-left:10px;background: #f5f5f5;color: #333333;border:none;font-size:12px;    border-top: 1px solid #DDD;">
+                    当前机构：<span style="margin-right:20px;" th:text="${entity.organ.name}"></span>
+                    部门：<span style="margin-right:20px;" th:text="${entity.dept.name}"></span>
+                    用户：<span style="margin-right:20px;" th:text="${entity.user.name}"></span>
+        <span style="float: right; margin-right: 20px; color: #333;">
+            <span>技术支持：</span>
+            <a href="http://www.sntianyuan.com" target="_blank" style="color:inherit;text-decoration:none;">陕西天远电子科技有限公司</a>
+        </span>
+    </div>
+	<div id="editpwd" class="easyui-dialog" style="width:410px;" data-options="closed:true,modal:true,border:'thin',buttons:'#btn-editpwd'">
+	</div>
+	<div id="dlgdispalyimg" class="easyui-dialog" style="width:100%;height:100%;padding:16px;overflow:hidden;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgdispalyimg-buttons',fit:true">
+    <img id="displayImage" alt="" style="width:99%;max-height:99%;border:1px solid #eee;border-radius:8px;" />
 </div>
-	<div id="dlgpwd" class="easyui-dialog" style="width: 400px; padding: 20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgpwd-buttons'">
-	</div>
-	<div id="dlgpwd-buttons">
-		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconcls="icon-ok" onclick="savePwd()" style="width: 90px">确定</a> 
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlgpwd').dialog('close')" style="width: 90px">取消</a>
-	</div>
-	<script type="text/javascript">
-		$(function() {
-			makeTree();
-		})
-		function makeTree() {
-	    	 $('#tt').tree({
-		            url: '/factory/main/tree',
-		            method:'GET',
-		            onClick: function (node) {
-		                if (node.state == 'open') $('#tt').tree('collapse', node.target);
-		                else $('#tt').tree('expand', node.target);
-			 			if(node.attributes!=null && node.attributes!='') {
-				 			ajaxLoading();
-			 				$('#iframemain').attr('src',node.attributes);
-			 			}
-		            },
-		            onLoadSuccess: function (node, data) {
-		                $('#tt .tree-title').css('font-size', '13px');
-		                $('#tt .tree-node').css('height', '23px');
-		                $('#tt .tree-icon').removeClass('tree-file');
-		                //$('#tt .tree-icon').removeClass('tree-folder tree-folder-open');
-		                $('#tt .tree-icon').css("background","url(/img/nav_left_jb.png) no-repeat center center");
-		            }
-		        });
-	    }
-		function changePwd(){
-		 	    $('#dlgpwd').dialog({ href: '/factory/main/changepwd', title: '修改密码' }).dialog('open').dialog('center');
-		 	}
+<div id="dlgdispalyimg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript: $('#dlgdispalyimg').dialog('close')" style="width:90px">关闭</a>
+</div>
+<script type="text/javascript">
+var tabs;
+var content = '<div style="width:100%;height:100%;z-index:-1;overflow:hidden;"><iframe scrolling="no" frameborder="0" src="url" style="width:100%;height:100%;padding:0;margin:0;display:block;" onLoad="ajaxLoadEnd()"></iframe></div>';
+var nodeId = '';
+	//加载事件
+	$(function(){
+		//定时获取通知
+		//window.setInterval(loadNotice, 20000);
+		//通知点击事件
+		$('#cc').layout();
+        tabs = $('#tt').tabs({
+            border: false,
+            fit: true
+        });
+        tabs.tabs('add', {
+            title: '工作台',
+            iconCls: '',
+            content: content.replace('url', '/manage/main/workbench'),
+            closable: false
+        });
 		
-		function savePwd(){
-	 		$('#dlgpwd').find('form:eq(0)').form('submit', {
-				url : '/factory/main/changepwd',
-				onSubmit : function() {
-					return $(this).form('validate');
-				},
-				success : function(result) {
-					$('#dlgpwd').dialog('close');
-					var result = eval('(' + result + ')');
-					messageAlert('提示', result.message, 'info');
+        //loadNotice();
+		// 设置按钮的下拉菜单
+		$('#user').on('click', function() {
+			$('#mm').menu('show', {
+				top: 66,
+				left: document.body.scrollWidth
+			});	
+		});
+		$("#changePwd").on('click', function() {
+			$('#editpwd').dialog({ href: '/manage/main/editpwd', title: '修改密码' }).dialog('open').dialog('center');
+		});
+		$("#logout").on('click', function() {
+			$.messager.confirm('提示', '确定退出系统？', function(r) {
+				if(r) {
+					$.get('/manage/login/logout',{},function(data){
+						if(data.code!='200'){
+							messageAlert('提示', '退出失败', 'error');
+							return;
+						}
+						window.location.href="/manage/login/index";
+					})
 				}
 			});
-	 	}
-		//loader显示
-	    function ajaxLoading() {
-	        $('.loader').show();
-	    }
-		//loader隐藏
-	    function ajaxLoadEnd() {
-	        $('.loader').hide();
-	    }
-		
-	</script>
+		});
+		$('#nav-list').tree({
+            url: '/manage/main/getusertree',
+            method:'get',
+            onLoadSuccess: function (node, data) {
+                $('.tree-title').css('font-size', '13px');
+            },
+            onClick: function (node) {
+                if (node.state == 'open') $('#nav-list').tree('collapse', node.target);
+                else $('#nav-list').tree('expand', node.target);
+                if (node.attributes == '' || !node.attributes) return;
+                openUrl(node.text, '/manage'+node.attributes.toLowerCase()+'/index');
+                //$('#frame').attr('src','/manage'+node.attributes.toLowerCase()+'/index');
+            }
+            
+        });	
+	});
+	
+	function openUrl(url){
+		$('#frame').attr('src',url);
+	}
+	//查看图片
+	function showImage(src) {
+	    $('#displayImage').attr('src', src);
+	    $('#dlgdispalyimg').dialog({ 'title': '查看图片' }).dialog('open').dialog('center');
+	}
+	
+	//通知详情
+    function readNotice(id) {
+        $('#frame').attr('src','/manage/main/readnotice?id='+id);
+    }
+  //加载tabs
+    function openUrl(title, url) {
+        if (!canOpen(title)) return;
+        ajaxLoading();
+        tabs.tabs('add', {
+            title: title,
+            content: content.replace('url', url),
+            closable: true
+        });
+    }
+
+    function openChildUrl(title, url) {
+        ajaxLoading();
+        tabs.tabs('add', {
+            title: title,
+            content: content.replace('url', url),
+            closable: true
+        });
+    }
+    //验证是否已经加载
+    function canOpen(title) {
+        var canAdd = true;
+        for (i = 0; i < tabs.tabs('tabs').length; i++) {
+            var panel = tabs.tabs('tabs')[i];
+            var name = panel.panel('options').title;
+            if (title == name) {
+                tabs.tabs('select', i);
+                canAdd = false;
+                break;
+            }
+        }
+        return canAdd;
+    }
+    //loader显示
+    function ajaxLoading() {
+        $('.loader').show();
+    }
+    //loader隐藏
+    function ajaxLoadEnd() {
+        $('.loader').hide();
+    }
+    //刷新
+    function tabsReload() {
+        ajaxLoading();
+        var content = tabs.tabs('getSelected').panel('options').content;
+        tabs.tabs('update', {
+            tab: tabs.tabs('getSelected'),
+            options: {
+                content: content  // the new content URL
+            },
+            onLoad: function () {
+                ajaxLoadEnd();
+            }
+        });
+    }
+</script>
 </body>
 </html>

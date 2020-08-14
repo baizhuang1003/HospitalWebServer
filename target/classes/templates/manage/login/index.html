@@ -1,188 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:include="shared/_loginlayout::header('智汇启航')">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="shared/_layout::header('医护登录')">
 </head>
-<body style="background: #F0F0F0;">
-<div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'north',border:false" style="height:100px;border-bottom: 20px solid #F0F0F0;">
-    	<ul id="lgleft">
-    		<li class="leftli"><img src="/image/logo.png" alt="Logo" /></li>
-    		<li class="leftli"><a href="/wisdom/home">官网首页</a></li>
-    		<li class="leftli"><a href="/wisdom/login/index">登录页面</a></li>
-    		<li class="rightli">
-    			<a href="/wisdom/login/index" class="easyui-linkbutton">立即登录</a>
-    		</li>
-    	</ul>
-    </div>
-    <div data-options="region:'south',border:false" style="height:74px;border-top: 20px solid #F0F0F0;text-align: center;background:#236DFF;" id="floot">
-    	<span style="font-size: 12px;color: #fff;line-height: 53px;">Copyright&nbsp;©&nbsp;2019&nbsp;&nbsp;&nbsp;陕西天远电子科技有限公司 备案号：陕ICP备16001186号-5</span>
-    </div>
-    <div data-options="region:'west',border:false" style="width:40px;background-color: #F0F0F0;"></div>
-    <div data-options="region:'east',border:false" style="width:40px;background-color: #F0F0F0;"></div>
-    <div data-options="region:'center',border:false" style="border-radius: 10px;background: #FFF;">
-    	<input id="rediscode" type="hidden" th:value="${rediscode}">
-    	<div id="center" style="background: url('/image/banner_box.png') no-repeat 0px 0px;background-size: cover;width: 100%;height: 100%;">
-	    		<div id="login">
-	    			<div id="pwdlogin">
-	    			<div style="text-align: right;">
-	    				<img alt="二维码登录" src="/image/change-qr.png" style="display: inline-block;cursor: pointer;" onclick="onQRcode(1)">
-	    			</div>
-	    			<form method="post">
-	    			<div style="text-align: center;">
-	    				<span style="color: #200000;font-size: 28px;">账号密码登录</span>
-	    			</div>
-	    			<div style="padding: 0 40px;margin-top: 40px;" class="login-phone">
-	    				<input name="username" th:value="${username}" class="easyui-textbox" data-options="iconCls:'fa',iconAlign:'left',prompt:'手机号'" style="width:100%;height: 40px;" >
-	    			</div>
-	    			<div style="padding: 0 40px;margin-top: 20px;" class="login-psw">
-	    				<input  name="password" class="easyui-passwordbox" data-options="iconAlign:'left',prompt:'密码'" style="width:100%;height: 40px;" >
-	    			</div>
-	    			<div style="padding: 0 40px;margin-top: 20px;">
-	    				<input id="ck" name="ck" type="checkbox" style="vertical-align: middle;width: 16px;height: 16px;margin: 0;padding: 0;margin-top: -6px;">
-	    				<span style="font-size: 14px;color: rgba(0,0,0,.50);line-height: 16px;height: 16px;">记住账号</span>
-	    			</div>
-	    			<div style="padding: 0 40px;margin-top: 40px;">
-	    				<input type="submit" class="easyui-linkbutton" style="width: 100%;height:40px;background:#236DFF;border: 1px solid #236DDD;color: #fff;font-size: 14px;" value="立即登录"/>
-	    			</div>
-	    			<div style="padding: 0 40px;margin-top: 5px;text-align: center;">
-	    				<span id="testerror" th:text="${error}" style="color: red;"></span>
-	    			</div>
-	    			</form>
-		    		</div>
-		    		<div id="qrcodelogin" style="display: none;">
-		    			<div style="text-align: right;">
-		    				<img alt="账号密码登录" src="/image/change-pc.png" style="display: inline-block;cursor: pointer;" onclick="onQRcode(2)">
-		    			</div>
-		    			<div style="text-align: center;">
-		    				<span style="color: #200000;font-size: 28px;">扫一扫登录</span>
-		    			</div>
-		    			<div style="text-align: center;margin-top: 20px;">
-		    				<span style="color: #666666;font-size: 14px;">请使用<span style="color: #236DFF;cursor: pointer;">智汇启航APP</span>扫码登录</span>
-		    			</div>
-		    			<div style="text-align: center;margin-top: 20px;">
-		    				<div id="qrdiv" style="display:inline-block;width: 200px;height: 200px;background-color: #EEEEEE;border-radius:10px;">
-		    					<img id="qrimg" alt="" th:src="@{/wisdom/login/qrcode(rediscode=${rediscode})}" style="display:inline-block;width: 180px;height: 180px;background-color: #fff;margin: 10px;" onerror="onImgError()"></img>
-		    				</div>
-		    			</div>
-		    			<div style="text-align: center;margin-top: 20px;">
-		    				<span style="color: #999999;font-size: 12px;">智汇启航APP - 首页导航栏右上角 - 点击扫一扫</span>
-		    			</div>
-		    			<!-- 
-		    				<a href="javascript:void(0)" class="easyui-linkbutton" style="margin-right: 20px;" onclick="onInfo()">扫码</a>
-		    				<a href="javascript:void(0)" class="easyui-linkbutton" style="margin-right: 20px;" onclick="onVerify()">确认登录</a>
-		    			 -->
-		    		</div>
-    		</div>
-    	</div>
-    </div>
-</div>
-<script type="text/javascript">
-var rediscode=$('#rediscode').val();
-var userid=0;
-$(function(){
-	if($("input[name='username']").val()!=null && $("input[name='username']").val()!="") $("#ck").attr("checked",true)
-	else $("#ck").attr("checked",false)
-	setInterval(function(){
-		keepPool();
-	},1000)
-})
-function onQRcode(obj){
-	$('#pwdlogin').toggle();
-	$('#qrcodelogin').toggle();
-}
-function onImgError(){
-	$('#qrimg').remove();
-	var str = '';
-	str+='<div id="pic" style="text-align: center;padding-top: 50px;">'; 
-	str+='<img alt="" src="/image/login_error.png" style="display: inline-block;">';
-	str+='</div>';
-	str+='<div id="nic" style="text-align: center;padding-top: 10px;">';
-	str+='<span>网络连接失败</span>';
-	str+='</div>';
-	str+='<div id="res" style="text-align: center;padding-top: 10px;">';
-	str+='<a href="javascript:void(0)" style="color: #236DFF;" onclick="onRefesh()">点击刷新</a>';
-	str+='</div>';
-	$('#qrdiv').append(str);
-}
-//查询是否被扫  
-function keepPool(){
-	$.post("/wisdom/login/status",{ rediscode : rediscode},function(d){
-		if(d.code==200){
-			if(d.message==''){
-				$('#qrimg').remove();
-				$('#pic').remove();
-				$('#nic').remove();
-				$('#res').remove();
-				var str = '';
-				str+='<div id="pic" style="text-align: center;padding-top: 50px;">'; 
-				str+='<img alt="" src="/image/login_failure.png" style="display: inline-block;">';
-				str+='</div>';
-				str+='<div id="nic" style="text-align: center;padding-top: 10px;">';
-				str+='<span>二维码失效</span>';
-				str+='</div>';
-				str+='<div id="res" style="text-align: center;padding-top: 10px;">';
-				str+='<a href="javascript:void(0)" style="color: #236DFF;" onclick="onRefesh()">点击刷新</a>';
-				str+='</div>';
-				$('#qrdiv').append(str);
-				return;
+<body>
+	<style>
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	.container{
+		    background: url('/img/bg.jpg') left top/100% no-repeat;
+		    height: 100%;
 			}
-			var result = $.parseJSON(d.message);
-			if(result.status==1){
-				var info = $.parseJSON(result.userinfo);
-				$('#qrimg').remove();
-				$('#pic').remove();
-				$('#nic').remove();
-				$('#res').remove();
-				userid = info.id;
-				if(info.avatar=='' || info.avatar=='null') info.avatar = "/image/default_avatar.png";
-				var str = '';
-				str+='<div id="pic" style="text-align: center;padding-top: 30px;">'; 
-				str+='<img alt="" src="'+info.avatar+'" style="display: inline-block;width:48px;height:48px;border-radius: 12px;" >';
-				str+='</div>';
-				str+='<div id="nic" style="text-align: center;padding-top: 10px;line-height:20px;">';
-				str+='<span style="color:#000;">扫描成功<br><span style="color:#999;font-size:10px;">请在手机端确认登录</span></span>';
-				str+='</div>';
-				str+='<div id="res" style="text-align: center;padding-top: 10px;">';
-				str+='<a href="javascript:void(0)" style="color: #236DFF;" onclick="onRefesh()">返回二维码登录</a>';
-				str+='</div>';
-				$('#qrdiv').append(str);
-			}
-			else if(result.status==2){
-				$.post('/wisdom/login/confirm',{ userid:userid,rediscode:rediscode },function(data){
-					if(data.code=200){
-						window.location.href=data.message;
-					}else{
-						messageAlert('提示', '确认登录失败', 'error');
-					}
-				})
-			}
-        }else{
-        	messageAlert('提示', result.message, 'error');
-        }
-	});
-}
-//刷新二维码
-function onRefesh(){
-	$.post('/wisdom/login/key',{},function(data){
-		$('#pic').remove();
-		$('#nic').remove();
-		$('#res').remove();
-		rediscode = data;
-		var str ='<img id="qrimg" alt="" src="/wisdom/login/qrcode?rediscode='+ data +'" style="display:inline-block;width: 180px;height: 180px;background-color: #fff;margin: 10px;" onerror="onImgError()"></img>';
-		$('#qrdiv').append(str);
-	})
+	.validatebox-text{
+		font-size: 14px;
+		}
+	.doctorimg{
+		height: 305px;
+		width: 212px;
+		background-image: url('/img/login_doctor.png');
+		left: calc(50% - 200px);
+		top: calc(50% - 163px);
+	}
 	
-}
-function onInfo(){
-	$.post('/mobile/login/getinfo',{ rediscode:rediscode,uid:1 },function(d){
+	</style>	
+	<div class="container" style="height: 100%">
+		<!--  <div class="top" th:include="shared/_layout::top"></div>-->
+		<div  class="usecontainer">
+				<div id="banner-box" style="width:300px;height:526px;float:left;overflow:hidden;border-radius:10px;">
+					<div class="doctorimg">
+					</div>
+				</div>
+				<div class="login-box">
+					<div style="margin: 60px auto">
+						<h3 class="title" th:text="${title}"></h3>
+						<h6 class="title">残疾人托养服务管理系统</h6>
+					</div>
+					<form id="ff" method="post">
+						<div style="margin-bottom: 20px;width: 300px;padding: 0 100px;">
+								<div style="margin-bottom: 20px;">
+									<input class="easyui-textbox" name="username" data-options="prompt:'手机号/账号',height:40" style="width: 100%;font-size: 14px;" th:value="${username}">
+								</div>
+						</div>
+						<div style="margin-bottom: 20px;width: 300px;padding: 0 100px;">
+							<input class="easyui-passwordbox" name="password" data-options="prompt:'登录密码',height:40" style="width: 100%;font-size: 14px;">
+						</div>
+						<div style="text-align: right;width: 300px;margin: 0 100px;">
+							<span style="color: #f00;font-size: 12px;float: left;padding-top: 6px;" th:text="${msg}"></span>
+							
+							<a href="javascript:void(0)" id="btn" class="easyui-linkbutton c8" onclick="submitForm()" style="width: 300px;height: 40px;font-size: 14px;background:#1885F2;color: #FFF;border-color: #1885F2;">登录</a>
+						</div>
+					</form>
+				</div>
+				<div class="clearfix"></div>
+		</div>
+		<div class="footer" th:include="shared/_layout::footer" style="color: #a8a8a8;position: absolute;bottom: 30px;left: calc(50% - 190px);"></div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$('.container').css('min-height',($(window).height())+'px');
+			$('input').css('font-size','14px');
+			$('.textbox .textbox-button').css('width','80px');
+			$('.l-btn-text').css('font-size','14px');
+			$('i').css('color','#f00');
+			$('.textbox-addon').css('right','6px');
+			$('.textbox-invalid').css('border-color','#ccc');
+		});
 		
-	})
-}
-function onVerify(){
-	$.post('/mobile/login/verify',{ rediscode:rediscode,uid:1 },function(d){
+		function submitForm() {
+	        $('#btn').linkbutton({text:'正在登录',disabled:true});
+	        $('#ff').form('submit', {
+	            url: '/manage/login/index',
+	            onSubmit: function () {
+	            },
+	            success: function (data) {
+	                $('#btn').linkbutton({ text: '登录', disabled: false });
+	                var result = eval('(' + data + ')');
+	                if (result.code != '200') {
+	                    $.messager.alert('提示', result.message, 'warning');
+	                    return;
+	                }
+	                window.location = '/manage/main/index';
+	            }
+	        });
+	    }
+	</script>		
 		
-	})
-}
-</script>
 </body>
 </html>

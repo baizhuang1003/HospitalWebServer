@@ -95,7 +95,7 @@ public class NurseryRepository implements EntityRepository<NurseryBean> {
 	@Override
 	public EntityPager<NurseryBean> pageSelect(int pageindex, int pagesize, String where, String order) {
 		// TODO Auto-generated method stub
-		return ef.queryEntityForPageList("t_organization", "*", where, order, pageindex, pagesize,
+		return ef.queryEntityForPageList("t_nursery", "*", where, order, pageindex, pagesize,
 				new EntityMapper<NurseryBean>() {
 
 				@Override

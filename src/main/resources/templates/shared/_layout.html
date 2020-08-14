@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<link rel="shortcut icon" href="/img/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icons/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/gray/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/css/superGreen.css" />
+<script src="/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="/easyui/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/pageSwitch.min.js" type="text/javascript" charset="utf-8"></script>
+<title th:text="${title}">Title</title>
+<style type="text/css">
+	html,body{
+		font-size: 14px;
+		color: #333;
+		height: 100%;
+	}
+	h3{
+		line-height: 40px;
+	}
+	.top{
+		height: 100px;
+		padding: 0px 10%;
+	}
+	
+			
+	.usecontainer{
+		    width:800px;
+			height:526px;
+			background:#FFFFFF;
+			box-shadow:0px 0px 32px 0px rgba(0,0,0,0.2);
+			border-radius:10px;
+			position: absolute;
+			left: calc(50% - 400px);
+			top: calc(50% - 263px);
+			overflow: hidden;
+			}
+	.footer div:last-child{
+		font-size: 12px;
+		color: white;
+	}
+	.login-box{
+    	position: relative;
+    	margin:auto;
+    	border-radius: 10px;
+    	width: 400px;
+    	left: calc(50% - 250px);
+		top: calc(50% - 263px);
+	}
+	.register-box{
+		background: #fff;
+		border-radius: 8px;
+		border: 1px solid #eee;
+		padding: 20px;
+		position: relative;
+		width: 400px;
+		margin: 0 auto;
+	}
+	h3.title{
+			font-size: 36px;
+		    font-weight: bold;
+		    line-height: 34px;
+		    text-align: center;
+		    margin: 15px auto;
+	}
+	h6.title{
+		    line-height: 34px;
+		    text-align: center;
+		    margin: 15px auto;
+		    margin: auto
+	}
+	.clearfix{
+		clear:both;
+	}
+	.login-btn-register,
+	.login-btn-register:link{
+		position: absolute;
+	    padding: 6px;
+	    bottom: -1px;
+	    font-size: 12px;
+	    width: 54px;
+	    right: -1px;
+	    background: #00D0A7;
+	    color: #fff;
+	    text-align: center;
+	    border-radius: 0 0 8px 0;
+	}
+	.login-btn-register:hover{
+		color: #f6f6f6;
+	}
+	.logo-box{
+		float: left;
+		margin-top: 8px;
+	}
+	.login-list{
+		float: right;
+		line-height: 80px;
+		font-size: 15px;
+	}
+	.login-list a,
+	.login-list a:link{
+		padding: 0 12px;
+		text-decoration: none;
+		color: #333;
+	}
+	.login-list a:hover{
+		color: #FA3;
+		text-decoration: none;
+	}
+	
+	.bottom-list{
+		font-size: 12px;
+		display: inline-block;
+		margin-bottom: 8px;
+	}
+	.bottom-list a{
+		padding: 0 12px;
+		color: #666;
+		text-decoration: none;
+		border-right: 1px solid #d6d1d1;
+	}
+	.bottom-list a:last-child{
+		border-right: none;
+	}
+	.bottom-list a:hover{
+		color: #FA3;
+	}
+	.loader {
+        position: absolute;
+        left: 0;
+        top: 30px;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+     }
+     .loader-mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 998;
+        background: #333;
+        filter: alpha(Opacity=20);
+        -moz-opacity: 0.2;
+        opacity: 0.2;
+      }
+
+        .loader-message {
+            width: 200px;
+            position: absolute;
+            z-index: 999;
+            background: #E0ECFF;
+            color: #134da5;
+            height: 30px;
+            line-height: 30px;
+            border: 2px solid #95B8E7;
+            top: 50%;
+            left: 50%;
+            font-size: 14px;
+            right: 50%;
+            bottom: 50%;
+            margin-top: -50px;
+            margin-left: -100px;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .loader-message img {
+                vertical-align: middle;
+        }
+        .main-title-right{
+        	float: right;line-height: 80px;font-size: 14px;
+        }
+        .main-title-right a{
+        	color: #FFF;
+        	text-decoration: none;
+        	padding: 0px 10px;
+        	border-right: 1px solid #DDD;
+        	cursor: pointer;
+        }
+        .main-title-right a:last-child{
+        	border-right:none;
+        }
+        .main-title-right a:hover {
+			color: #FA3;
+			text-decoration: none;
+		}
+		.main-title-left{
+			float: left;
+			margin-top: 8px;
+		}
+</style>
+</head>
+<body>
+<div th:fragment="top">
+			<div class="logo-box">
+				<img src="/img/logo2.png" alt="" style="width:548px;height: 64px;margin-top: 8px;">
+			</div>
+			<div class="login-list">
+				<a href="/login/index?c=factory">工厂版</a>
+				<a href="/login/index?c=group">集团版</a>
+			</div>
+	</div>
+	<div th:fragment="footer">
+		
+		<div>Copyright @ 2018 陕西天远电子科技有限公司&nbsp;备案号：陕ICP备19037475号-1
+		</div>
+	</div>
+</body>
+</html>

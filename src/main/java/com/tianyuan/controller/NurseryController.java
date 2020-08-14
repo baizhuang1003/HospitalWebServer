@@ -39,8 +39,8 @@ public class NurseryController extends BaseHospitalController {
 	}
 	
 	@GetMapping("nursery/edit")
-	public ModelAndView edit(String id) {
-		NurseryBean entity = nurseryRepository.selectRow(" id='"+id+"'");
+	public ModelAndView edit(int id) {
+		NurseryBean entity = nurseryRepository.selectRow(" id="+id);
 		if(entity==null) entity = new NurseryBean();
 		ModelAndView model = new ModelAndView();
 		model.addObject("entity", entity);
@@ -50,8 +50,7 @@ public class NurseryController extends BaseHospitalController {
 	
 	@PostMapping("nursery/edit")
 	public AjaxResult edit(NurseryBean entity) {
-        if (nurseryRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"' ")) return onFailed("服务已存在");
-        System.out.println(entity.getId());
+        if (nurseryRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"' ")) return onFailed("托养方式已存在");
         try {
         	if (entity.getId()<1) nurseryRepository.insertRow(entity);
         	else nurseryRepository.updateRow(entity);

@@ -1,33 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head></head>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
 <body>
-	<div>
-		<form method="post">
-			<input type="hidden" name="id" id="id" th:value="${obj.id}">
-			<input type="hidden" name="pid" id="pid" th:value="${obj.pid}">
-			<table>
-				<tr>
-					<td style="width:300px;padding-bottom: 16px;">
-		            	<input name="sort" th:value="${obj.sort}"  class="easyui-numberbox" data-options="label:'序号',min:0,required:true" style="width:100%">
-		            </td>
-				</tr>
-				<tr>
-					<td style="width:300px;padding-bottom: 16px;">
-		            	<input name="deptname" th:value="${obj.deptname}" class="easyui-textbox" data-options="label:'部门名称',required:true" style="width:100%" >
-		            </td>
-				</tr>
-				<tr>
-					<td style="width:300px;padding-bottom: 16px;">
-		            	<input th:value="${obj.remark}" name="remark"  class="easyui-textbox" data-options="label:'备注'" style="width:100%" >
-		            </td>
-				</tr>
-			</table>
-		</form>
-	</div>
-	<script type="text/javascript">
-	   $('#dlg').dialog('center');
-	   
-	</script>
+
 </body>
 </html>

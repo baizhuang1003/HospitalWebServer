@@ -7,12 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.tianyuan.core.EntityFreamwork;
 import com.tianyuan.repository.DeptRepository;
-import com.tianyuan.repository.DictionariesRepository;
-import com.tianyuan.repository.HospitalSericeRepository;
-import com.tianyuan.repository.NurseryRepository;
+import com.tianyuan.repository.LimitRepository;
 import com.tianyuan.repository.OrganizationRepository;
-import com.tianyuan.repository.ProtocolRepository;
-import com.tianyuan.repository.ServiceItemsRepository;
+import com.tianyuan.repository.RoleRepository;
+import com.tianyuan.repository.SmsRepository;
 import com.tianyuan.repository.UserRepository;
 @Configuration
 @EnableCaching
@@ -25,6 +23,22 @@ public class BaseAppServer extends CachingConfigurerSupport {
 	}
 	
 	@Bean
+	UserRepository userRepository() {
+		return new UserRepository();
+	}
+	@Bean
+	LimitRepository limitRepository() {
+		return new LimitRepository();
+	}
+	@Bean
+	RoleRepository roleRepository() {
+		return new RoleRepository();
+	}
+	@Bean
+	SmsRepository smsRepository() {
+		return new SmsRepository();
+	}
+	@Bean
 	OrganizationRepository organizationRepository() {
 		return new OrganizationRepository();
 	}
@@ -32,28 +46,5 @@ public class BaseAppServer extends CachingConfigurerSupport {
 	DeptRepository deptRepository() {
 		return new DeptRepository();
 	}
-	@Bean
-	DictionariesRepository dictionariesRepository() {
-		return new DictionariesRepository();
-	}
-	@Bean
-	HospitalSericeRepository hospitalSericeRepository() {
-		return new HospitalSericeRepository();
-	}
-	@Bean 
-	NurseryRepository nurseryRepository() {
-		return new NurseryRepository();
-	}
-	@Bean
-	ServiceItemsRepository serviceItemsRepository() {
-		return new ServiceItemsRepository();
-	}
-	@Bean
-	ProtocolRepository protocolRepository() {
-		return new ProtocolRepository();
-	}
-	@Bean
-	UserRepository userRepository() {
-		return new UserRepository();
-	}
+	
 }

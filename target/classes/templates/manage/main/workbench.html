@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="manage/shared/_layout::header('工作台')">
+</head>
+<style>
+img{
+	width: 720px;
+    height: 300px;
+    margin: 0 auto;
+    display: block;
+    margin-top: calc(25% - 150px );
+}
+</style>
+<body>
+<input type="hidden" id="welmanager" th:value="${welmanager}">
+<img alt="" src="/images/home_logo.png">
+<script>
+var welmanager='';
+    $(function () {
+    	welmanager = $('#welmanager').val()
+        $('body').css('background', 'url('+welmanager+')');
+        $('body').css('filter', "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')");
+        $('body').css('-moz-background-size', '100% 100%');
+        $('body').css('background-size', '100% 100%');
+        $('body').css('background-attachment', 'fixed');
+    })
+</script>
+</body>
+</html>

@@ -13,26 +13,31 @@ import com.tianyuan.core.EntityMapper;
 import com.tianyuan.core.EntityPager;
 import com.tianyuan.core.EntityRepository;
 
-public class DeptRepository implements EntityRepository<DeptBean>{
+
+public class DeptRepository implements EntityRepository<DeptBean> {
+
 	@Autowired
 	EntityFreamwork ef;
-
+	
 	@Override
 	public boolean insertRow(DeptBean t) {
 		// TODO Auto-generated method stub
-		String sql=" INSERT INTO t_dept" + 
-				"( parentid, deptname, sort, createtime) " + 
-				"VALUES ("+t.getParentid()+", '"+t.getDeptname()+"', "+t.getSort()+", now()); ";
+		String sql = "INSERT INTO t_dept " + 
+				"(id, orgcode, name, sort, parentid, remark, createuid, createtime, updateuid, updatetime)  " + 
+				"VALUES ('"+ef.getId()+"', '"+t.getOrgcode()+"', '"+t.getName()+"', "+t.getSort()+", '"+t.getParentid()+"', "
+				+ "'"+t.getRemark()+"', '"+t.getCreateuid()+"', now(), "
+				+ "'"+t.getUpdateuid()+"', now())";
 		return ef.update(sql);
 	}
 
 	@Override
 	public boolean updateRow(DeptBean t) {
 		// TODO Auto-generated method stub
-		String sql =" UPDATE t_dept " + 
-				"SET id = id , parentid = "+t.getParentid()+", deptname = '"+t.getDeptname()+"', sort = "+t.getSort()+", updatetime = now() " + 
-				
-				"WHERE  id="+t.getId();
+		String sql = "UPDATE t_dept " + 
+				"SET orgcode = '"+t.getOrgcode()+"', name = '"+t.getName()+"', sort = "+t.getSort()+", parentid = '"+t.getParentid()+"', "
+				+ "remark = '"+t.getRemark()+"', createuid = '"+t.getCreateuid()+"', createtime = now(), "
+				+ "updateuid = '"+t.getCreateuid()+"', updatetime = now() " + 
+				"WHERE id = '"+t.getId()+"'";
 		return ef.update(sql);
 	}
 
@@ -68,7 +73,6 @@ public class DeptRepository implements EntityRepository<DeptBean>{
 		if (where == null || where.equals(""))
 			return true;
 		String sql = "select count(*) as c from t_dept where " + where;
-		System.out.println(sql);
 		return ef.exits(sql);
 	}
 
@@ -96,14 +100,13 @@ public class DeptRepository implements EntityRepository<DeptBean>{
 	public EntityPager<DeptBean> pageSelect(int pageindex, int pagesize, String where, String order) {
 		// TODO Auto-generated method stub
 		return ef.queryEntityForPageList("t_dept", "*", where, order, pageindex, pagesize,
-				new EntityMapper<DeptBean>() {
+			new EntityMapper<DeptBean>() {
 
-				@Override
-				public DeptBean Mapper(ResultSet rs) throws SQLException {
-					// TODO Auto-generated method stub
-					return EntityBinder.entityBinder(rs, DeptBean.class);
-				}
-			});
+			@Override
+			public DeptBean Mapper(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return EntityBinder.entityBinder(rs, DeptBean.class);
+			}
+		});
 	}
-
 }

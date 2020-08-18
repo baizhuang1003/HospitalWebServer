@@ -2,163 +2,110 @@ package com.tianyuan.bean;
 
 import java.util.Date;
 
-/**
- *      机构信息表
- * @author BZ 2020年8月6日15:01:46
- *
- */
 public class OrganizationBean {
-
-	private int id,certificationstatus,status,createuid,updateuid;
-	
-	private String phone, region,organization,abbreviation,synopsis,site,website,email,businesslicense,remark,audituser;
-	
-	private Date createtime,updatetime;
-
-	public int getId() {
+	private String id;
+	private String code;
+	private String name;
+	private String abbr;
+	private String regionid;
+	private String region;
+	private String address;
+	private String phone;
+	private String principal;
+	private String mobile;
+	private String fax;
+	private Date createtime;
+	private String createuid;
+	private Date updatetime;
+	private String updateuid;
+	public String getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-
-	public String getPhone() {
-		return phone;
+	public String getCode() {
+		return code;
 	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setCode(String code) {
+		this.code = code;
 	}
-
-	public int getCertificationstatus() {
-		return certificationstatus;
+	public String getName() {
+		return name;
 	}
-
-	public void setCertificationstatus(int certificationstatus) {
-		this.certificationstatus = certificationstatus;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public int getStatus() {
-		return status;
+	public String getAbbr() {
+		return abbr;
 	}
-
-	public void setStatus(int status) {
-		this.status = status;
+	public void setAbbr(String abbr) {
+		this.abbr = abbr;
 	}
-
-	public int getCreateuid() {
-		return createuid;
+	public String getRegionid() {
+		return regionid;
 	}
-
-	public void setCreateuid(int createuid) {
-		this.createuid = createuid;
+	public void setRegionid(String regionid) {
+		this.regionid = regionid;
 	}
-
-	public int getUpdateuid() {
-		return updateuid;
-	}
-
-	public void setUpdateuid(int updateuid) {
-		this.updateuid = updateuid;
-	}
-
 	public String getRegion() {
 		return region;
 	}
-
 	public void setRegion(String region) {
 		this.region = region;
 	}
-
-	public String getOrganization() {
-		return organization;
+	public String getAddress() {
+		return address;
 	}
-
-	public void setOrganization(String organization) {
-		this.organization = organization;
+	public void setAddress(String address) {
+		this.address = address;
 	}
-
-	public String getAbbreviation() {
-		return abbreviation;
+	public String getPhone() {
+		return phone;
 	}
-
-	public void setAbbreviation(String abbreviation) {
-		this.abbreviation = abbreviation;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-
-	public String getSynopsis() {
-		return synopsis;
+	public String getPrincipal() {
+		return principal;
 	}
-
-	public void setSynopsis(String synopsis) {
-		this.synopsis = synopsis;
+	public void setPrincipal(String principal) {
+		this.principal = principal;
 	}
-
-	public String getSite() {
-		return site;
+	public String getMobile() {
+		return mobile;
 	}
-
-	public void setSite(String site) {
-		this.site = site;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
-
-	public String getWebsite() {
-		return website;
+	public String getFax() {
+		return fax;
 	}
-
-	public void setWebsite(String website) {
-		this.website = website;
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getBusinesslicense() {
-		return businesslicense;
-	}
-
-	public void setBusinesslicense(String businesslicense) {
-		this.businesslicense = businesslicense;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
 	public Date getCreatetime() {
 		return createtime;
 	}
-
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
-
+	public String getCreateuid() {
+		return createuid;
+	}
+	public void setCreateuid(String createuid) {
+		this.createuid = createuid;
+	}
 	public Date getUpdatetime() {
 		return updatetime;
 	}
-
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
-
-	public String getAudituser() {
-		return audituser;
+	public String getUpdateuid() {
+		return updateuid;
 	}
-
-	public void setAudituser(String audituser) {
-		this.audituser = audituser;
+	public void setUpdateuid(String updateuid) {
+		this.updateuid = updateuid;
 	}
-	
-	
-	
 }

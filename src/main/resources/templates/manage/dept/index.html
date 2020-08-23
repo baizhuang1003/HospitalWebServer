@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="manage/shared/_layout::header('部门设置')">
+<head th:replace="manage/shared/_layout::header('部门管理')">
 </head>
+<style>
+    .layout-split-west .panel-header {
+        background: #1c68bc;
+    }
+
+        .layout-split-west .panel-header .panel-title {
+            color: #FFF;
+        }
+
+    .tree-node {
+        height: 42px !important;
+        margin: 0;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #FFFFFF;
+        border-radius: 0px;
+        padding: 0 10px;
+    }
+
+    .tree-title {
+        color: #404040;
+        height: 42px;
+        line-height: 42px !important;
+        margin-left: -16px;
+    }
+
+    .layout-expand .panel-header, .layout-expand .panel-body {
+        background: #DDDDDD;
+        filter: none;
+        overflow: hidden;
+        border: none;
+    }
+
+    .tree-node-selected {
+        background: #DDDDDD;
+        border-radius: 0px;
+        padding: 0 10px;
+    }
+
+    .icon-menu, .icon-layout {
+        background: none;
+    }
+</style>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div id="north" data-options="region:'north'" style="height:38px; ">
-
+    <div data-options="region:'north'" style="height:40px;line-height:38px;">
         <th:block th:if="${entity.IsAdd}">
     		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
     	</th:block>
@@ -15,6 +57,11 @@
         <th:block th:if="${entity.IsDelete}">
         	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
         </th:block>
+    </div>
+    <div data-options="region:'west',split:true" title="部门树" style="width:200px;">
+        <div class="easyui-panel" data-options="fit:true">
+            <ul id="treeList"></ul>
+        </div>
     </div>
     <div data-options="region:'center',title:'部门列表',iconCls:'icon-grid'">
         <table id="dg"></table>
@@ -27,63 +74,76 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
 </div>
 <script type="text/javascript">
+var nodeId = '';
 $(function(){
+	makeTree();
 	makeGrid();
 })
+function makeTree() {
+	$('#treeList').tree({
+		url: '/manage/dept/gettree',
+		method:'get',
+		onLoadSuccess: function () {
+			$('.tree-title').css('font-size', '13px');
+		},
+		onClick: function (node) {
+			if (node.state == 'open') $('#treeList').tree('collapse', node.target);
+			else $('#treeList').tree('expand', node.target);
+			$('#treeList .tree-hit').removeClass('tree-expanded');
+			$('#treeList .tree-hit').removeClass('tree-indent tree-collapsed');
+	        $('#treeList .tree-hit').addClass('tree-indent');
+			nodeId = node.id;
+			$('#dg').datagrid({
+				url: '/manage/dept/list',
+                queryParams: { pid: nodeId }
+			});
+		},
+		onLoadSuccess: function (node, data) {
+            //treeListRelease();
+            var node = $('#treeList').tree('find', nodeId);
+            $('#treeList').tree('select', node.target);
+            $('#treeList .tree-icon').removeClass('tree-folder icon-gears')
+            $('#treeList .tree-hit').removeClass('tree-expanded');
+            $('#treeList .tree-hit').removeClass('tree-indent tree-collapsed');
+            $('#treeList .tree-hit').addClass('tree-indent');
+		}
+	});
+}
 function makeGrid() {
 	$('#dg').datagrid({
 		url: '/manage/dept/list',
-		idField: 'id',
-		rownumbers: true,
-		singleSelect: true,
-		queryParams: {},
-		fit:true,
-		pagination: true,
-		rownumbers:true,
-		pageSize: 20,
-		pageList: [10, 20, 30, 40, 50],
-		columns: [
+        idField: 'id',
+        rownumbers: true,
+        singleSelect: true,
+        queryParams: { pid: nodeId },
+        fit: true,
+        pagination: true,
+        rownumbers: true,
+        pageSize: 20,
+        pageList: [10, 20, 30, 40, 50],
+        columns: [
         	[
-        		{ field:'id',title:'排序',width:150,align:'center' },
-        		{ field:'code',title:'编号',width:150,align:'center' },
-        		{ field:'name',title:'部门名称',width:150,align:'center' },
-        		{ field:'remark',title:'备注',width:160,align:'center' },
+        		{ field:'sort',title:'排序',width:100,align:'center' },
+        		{ field:'name',title:'名称',width:200,align:'center' },
+        		{ field:'remark',title:'备注',width:200,align:'center' },
         	]
         ]
 	});
 }
 //添加
 function newModel() {
-    $('#dlg').dialog({ href: '/manage/dept/edit?id=', title: '添加' }).dialog('open').dialog('center');
+	$('#dlg').dialog({ href: '/manage/dept/edit?id=', title: '添加' }).dialog('open').dialog('center');
 }
 //修改
 function editModel() {
-    var row = $('#dg').datagrid('getSelected');
-    if (row) {
-        $('#dlg').dialog({ href: '/manage/dept/edit?id='+row.id, title: '编辑' }).dialog('open').dialog('center');
-    }
+	var row = $('#dg').datagrid('getSelected');
+	if (row) {
+		$('#dlg').dialog({ href: '/manage/base/dept/edit?id=' + row.id, title: '编辑' }).dialog('open').dialog('center');
+	}
 }
-//删除
-function destroyModel() {
-    var row = $('#dg').datagrid('getSelected');
-    if (row) {
-        $.messager.confirm('提示', '确定要删除吗?', function (r) {
-            if (r) {
-                $.post('/manage/dept/delete', { id: row.id }, function (result) {
-                    if (result.code=='200') {
-                        $('#dg').datagrid('reload');
-                    } else {
-                        messageAlert('提示', result.message, 'error');
-                    }
-                }, 'json');
-            }
-        });
-    }
-}
-//保存
 function saveModel() {
     $('#dlg').find('form:eq(0)').form('submit', {
-        url: '/manage/cert/worker/edit',
+        url: '/manage/dept/edit',
         onSubmit: function () {
             return $(this).form('validate');
         },
@@ -94,9 +154,27 @@ function saveModel() {
             } else {
                 $('#dlg').dialog('close');        // close the dialog
                 $('#dg').datagrid('reload');    // reload the user data
+                $('#treeList').tree('reload');
             }
         }
     });
+}
+function destroyModel() {
+    var row = $('#dg').datagrid('getSelected');
+    if (row) {
+        $.messager.confirm('提示', '确定要删除吗?', function (r) {
+            if (r) {
+                $.post('/manage/dept/delete', { id: row.id }, function (result) {
+                    if (result.code=='200') {
+                        $('#dg').datagrid('reload');
+                        $('#treeList').tree('reload');
+                    } else {
+                        messageAlert('提示', result.message, 'error');
+                    }
+                }, 'json');
+            }
+        });
+    }
 }
 </script>
 </body>

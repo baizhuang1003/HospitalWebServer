@@ -240,7 +240,6 @@ var nodeId = '';
                 if (node.state == 'open') $('#nav-list').tree('collapse', node.target);
                 else $('#nav-list').tree('expand', node.target);
                 if (node.attributes == '' || !node.attributes) return;
-                alert('/manage'+node.attributes.toLowerCase()+'/index')
                 openUrl(node.text, '/manage'+node.attributes.toLowerCase()+'/index');
                 //$('#frame').attr('src','manage'+node.attributes.toLowerCase()+'/index');
             }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="manage/shared/_layout::header('角色权限')">
+</head>
+<style>
+    .layout-split-west .panel-header {
+        background: ;
+    }
+
+        .layout-split-west .panel-header .panel-title {
+            color: #FFF;
+        }
+
+    .tree-node {
+        height: 42px !important;
+        margin: 0;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #FFFFFF;
+        border-radius: 0px;
+        padding: 0 10px;
+    }
+
+    .tree-title {
+        color: #404040;
+        height: 42px;
+        line-height: 42px !important;
+    }
+
+    .layout-expand .panel-header, .layout-expand .panel-body {
+        background: #DDDDDD;
+        filter: none;
+        overflow: hidden;
+        border: none;
+    }
+</style>
+<body>
+<input type="hidden" id="roleid" th:value="${roleid}">
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'north'" style="height:55px;line-height:43px;">
+    	<th:block th:if="${entity.IsEdit}">
+			<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveModel()" style="margin: 10px;padding: 0 30px;">保存</a>
+		</th:block>
+    </div>
+    <div data-options="region:'center',title:'角色权限树',iconCls:'icon-grid'">
+        <table id="tt"></table>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    makeTree();
+})
+function makeTree() {
+    $('#tt').tree({
+        url: '/manage/base/role/gettree?id='+$('#roleid').val(),
+        method:'get',
+        checkbox: true,
+        onLoadSuccess: function () {
+            $('.tree-title').css('font-size', '13px');
+            $(".tree-icon,.tree-file").removeClass("tree-icon tree-file");
+            $(".tree-icon,.tree-folder").removeClass("tree-icon tree-folder tree-folder-open tree-folder-closed");
+            $('.tree-title').css('line-height', '18px');
+        }
+    });
+}
+
+function saveModel() {
+    var nodes = $('#tt').tree('getChecked', ['checked', 'indeterminate']);
+    var values = '';
+    for (i = 0; i < nodes.length; i++) {
+        values += ',';
+        values += nodes[i].id;
+    }
+    $.post("/manage/base/role/savefunc", { id: $('#roleid').val(), funcs: values }, function (result) {
+        messageAlert('提示', result.message, 'info');
+    }, 'json');
+}
+</script>
+</body>
+</html>

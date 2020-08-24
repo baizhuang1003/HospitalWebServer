@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<form method="post">
+	<input type="hidden" name="id" id="id" th:value="${entity.id}">
+	<input type="hidden" name="orgcode" id="orgcode" th:value="${entity.orgcode}">
+	<table>
+      <tr style="margin-bottom: 10px; display: inline-block;">
+          <td style="width:300px;">
+          	  <input class = "easyui-textbox" name="name" id="name" data-options="label:'名称',required:true" style="width: 100%;" th:value="${entity.name}"/>
+          </td>
+      </tr>
+      <tr style="margin-bottom: 10px; display: inline-block;">
+          <td style="width:300px;">
+          	  <input class = "easyui-textbox" name="remark" id="remark" data-options="label:'备注',multiline:true" style="width: 100%;height: 60px;" th:value="${entity.remark}"/>
+          </td>
+      </tr>
+  </table>
+</form>
+<script type="text/javascript">
+$('#dlg').dialog('center');
+</script>
+</body>
+</html>

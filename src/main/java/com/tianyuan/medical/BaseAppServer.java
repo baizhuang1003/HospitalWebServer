@@ -8,8 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import com.tianyuan.core.EntityFreamwork;
 import com.tianyuan.repository.DeptRepository;
 import com.tianyuan.repository.LimitRepository;
+import com.tianyuan.repository.NurseryRepository;
 import com.tianyuan.repository.OrganizationRepository;
+import com.tianyuan.repository.ParameterRepository;
 import com.tianyuan.repository.RoleRepository;
+import com.tianyuan.repository.ServiceRepository;
 import com.tianyuan.repository.SmsRepository;
 import com.tianyuan.repository.UserRepository;
 @Configuration
@@ -45,6 +48,18 @@ public class BaseAppServer extends CachingConfigurerSupport {
 	@Bean
 	DeptRepository deptRepository() {
 		return new DeptRepository();
+	}
+	@Bean
+	NurseryRepository nurseryRepository() {
+		return new NurseryRepository();
+	}
+	@Bean
+	ServiceRepository serviceRepository() {
+		return new ServiceRepository();
+	}
+	@Bean
+	ParameterRepository parameterRepository() {
+		return new ParameterRepository();
 	}
 	
 }

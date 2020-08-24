@@ -4,87 +4,146 @@
 </head>
 <body>
 	<style>
-	*{
-		padding: 0;
-		margin: 0;
-	}
-	.container{
-		    background: url('/img/bg.jpg') left top/100% no-repeat;
-		    height: 100%;
-			}
-	.validatebox-text{
-		font-size: 14px;
-		}
-	.doctorimg{
-		height: 305px;
-		width: 212px;
-		background-image: url('/img/login_doctor.png');
-		left: calc(50% - 200px);
-		top: calc(50% - 163px);
-	}
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.container {
+	background: url('/img/bg.jpg') left top/100% no-repeat;
+	height: 100%;
+}
+
+.validatebox-text {
+	font-size: 14px;
+}
+
+.doctorimg {
+	height: 302px;
+	width: 207px;
+	background-image: url(/img/login_doctor.png);
+	left: calc(50% - 200px);
+	top: calc(50% - 163px);
+	margin-top: 99px;
+	margin-left: 91px;
+}
+
+.header-img {
+	height: 36px;
+	width: 204px;
+	background-image: url(/img/login_logo.png);
+	left: calc(50% - 200px);
+	top: calc(50% - 163px);
+	margin-top: 99px;
+	margin-left: 141px;
+}
+
+.title {
+	text-align: center;
+	color: #4F4F4F;
+	line-height:10px !important;
+} 
+
+.forget {marfon-top "-10px"
 	
-	</style>	
+}
+
+.wangji li {
+	display: inline-block;
+	list-style: none;
+	margin-bottom: 19px;
+}
+
+.wangji li:hover {
+	cursor: pointer;
+}
+
+.wangji li a {
+	text-decoration: none;
+}
+</style>
 	<div class="container" style="height: 100%">
 		<!--  <div class="top" th:include="shared/_layout::top"></div>-->
-		<div  class="usecontainer">
-				<div id="banner-box" style="width:300px;height:526px;float:left;overflow:hidden;border-radius:10px;">
-					<div class="doctorimg">
-					</div>
+		<div class="usecontainer">
+			<div id="banner-box"
+				style="width: 300px; height: 526px; float: left; overflow: hidden; border-radius: 10px;">
+				<div class="doctorimg"></div>
+			</div>
+			<div class="login-box" style="left: calc(50% - 285px);">
+				<div class="header-img"></div>
+				<div style="margin: 13px auto; margin-bottom: 40px;">
+					<h3 class="title" th:text="${title}"></h3>
+					<h6 class="title">残疾人托养服务管理系统</h6>
 				</div>
-				<div class="login-box">
-					<div style="margin: 60px auto">
-						<h3 class="title" th:text="${title}"></h3>
-						<h6 class="title">残疾人托养服务管理系统</h6>
+				<form id="ff" method="post">
+					<div style="margin-bottom: 20px; width: 300px; padding: 0 100px;">
+						<div style="margin-bottom: 20px;">
+							<input class="easyui-textbox" name="username"
+								data-options="prompt:'手机号/账号',height:40"
+								style="width: 100%; font-size: 14px;" th:value="${username}">
+						</div>
 					</div>
-					<form id="ff" method="post">
-						<div style="margin-bottom: 20px;width: 300px;padding: 0 100px;">
-								<div style="margin-bottom: 20px;">
-									<input class="easyui-textbox" name="username" data-options="prompt:'手机号/账号',height:40" style="width: 100%;font-size: 14px;" th:value="${username}">
-								</div>
-						</div>
-						<div style="margin-bottom: 20px;width: 300px;padding: 0 100px;">
-							<input class="easyui-passwordbox" name="password" data-options="prompt:'登录密码',height:40" style="width: 100%;font-size: 14px;">
-						</div>
-						<div style="text-align: right;width: 300px;margin: 0 100px;">
-							<span style="color: #f00;font-size: 12px;float: left;padding-top: 6px;" th:text="${msg}"></span>
-							
-							<a href="javascript:void(0)" id="btn" class="easyui-linkbutton c8" onclick="submitForm()" style="width: 300px;height: 40px;font-size: 14px;background:#1885F2;color: #FFF;border-color: #1885F2;">登录</a>
-						</div>
-					</form>
-				</div>
-				<div class="clearfix"></div>
+					<div style="margin-bottom: 20px; width: 300px; padding: 0 100px;">
+						<input class="easyui-passwordbox" name="password"
+							data-options="prompt:'登录密码',height:40"
+							style="width: 100%; font-size: 14px;">
+					</div>
+					<div>
+						<ul class="wangji">
+							<!-- <li></input> -->
+							<li><input type="checkbox" />忘记密码</li>
+							<li style="float: right" class="forget"><a href="#">忘记密码</a></li>
+						</ul>
+					</div>
+					<div style="text-align: right; width: 300px; margin: 0 100px;">
+						<span
+							style="color: #f00; font-size: 12px; float: left; padding-top: 6px;"
+							th:text="${msg}"></span> <a href="javascript:void(0)" id="btn"
+							class="easyui-linkbutton c8" onclick="submitForm()"
+							style="width: 300px; height: 40px; font-size: 14px; background: #1885F2; color: #FFF; border-color: #1885F2;">登录</a>
+					</div>
+				</form>
+			</div>
+			<div class="clearfix"></div>
 		</div>
-		<div class="footer" th:include="shared/_layout::footer" style="color: #a8a8a8;position: absolute;bottom: 30px;left: calc(50% - 190px);"></div>
+		<div class="footer" th:include="shared/_layout::footer"
+			style="color: #a8a8a8; position: absolute; bottom: 30px; left: calc(50% - 190px);"></div>
 	</div>
 	<script type="text/javascript">
-		$(function(){
-			$('.container').css('min-height',($(window).height())+'px');
-			$('input').css('font-size','14px');
-			$('.textbox .textbox-button').css('width','80px');
-			$('.l-btn-text').css('font-size','14px');
-			$('i').css('color','#f00');
-			$('.textbox-addon').css('right','6px');
-			$('.textbox-invalid').css('border-color','#ccc');
+		$(function() {
+			$('.container').css('min-height', ($(window).height()) + 'px');
+			$('input').css('font-size', '14px');
+			$('.textbox .textbox-button').css('width', '80px');
+			$('.l-btn-text').css('font-size', '14px');
+			$('i').css('color', '#f00');
+			$('.textbox-addon').css('right', '6px');
+			$('.textbox-invalid').css('border-color', '#ccc');
 		});
-		
+
 		function submitForm() {
-	        $('#btn').linkbutton({text:'正在登录',disabled:true});
-	        $('#ff').form('submit', {
-	            url: '/manage/login/dologin',
-	            onSubmit: function () {
-	            },
-	            success: function (data) {
-	                $('#btn').linkbutton({ text: '登录', disabled: false });
-	                var result = eval('(' + data + ')');
-	                if (result.code != '200') {
-	                    $.messager.alert('提示', result.message, 'warning');
-	                    return;
-	                }
-	                window.location = '/manage/main/index';
-	            }
-	        });
-	    }
-	</script>		
-		
+			$('#btn').linkbutton({
+				text : '正在登录',
+				disabled : true
+			});
+			$('#ff').form('submit', {
+				url : '/manage/login/dologin',
+				onSubmit : function() {
+				},
+				success : function(data) {
+					$('#btn').linkbutton({
+						text : '登录',
+						disabled : false
+					});
+					var result = eval('(' + data + ')');
+					if (result.code != '200') {
+						$.messager.alert('提示', result.message, 'warning');
+						return;
+					}
+					window.location = '/manage/main/index';
+				}
+			});
+		}
+	</script>
+
 </body>
 </html>

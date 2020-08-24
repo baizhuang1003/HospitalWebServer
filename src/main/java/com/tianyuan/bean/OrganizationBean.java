@@ -2,6 +2,11 @@ package com.tianyuan.bean;
 
 import java.util.Date;
 
+/**
+ * 机构设置
+ * @author Administrator
+ *
+ */
 public class OrganizationBean {
 	private String id;
 	private String code;
@@ -14,10 +19,15 @@ public class OrganizationBean {
 	private String principal;
 	private String mobile;
 	private String fax;
+	
 	private Date createtime;
 	private String createuid;
 	private Date updatetime;
 	private String updateuid;
+	
+	private String email,businesslicense,audituser;
+	
+	private int status;
 	public String getId() {
 		return id;
 	}
@@ -108,4 +118,29 @@ public class OrganizationBean {
 	public void setUpdateuid(String updateuid) {
 		this.updateuid = updateuid;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getBusinesslicense() {
+		return businesslicense;
+	}
+	public void setBusinesslicense(String businesslicense) {
+		this.businesslicense = businesslicense;
+	}
+	public String getAudituser() {
+		return audituser;
+	}
+	public void setAudituser(String audituser) {
+		this.audituser = audituser;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
 }

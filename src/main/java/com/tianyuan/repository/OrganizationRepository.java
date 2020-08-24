@@ -21,9 +21,9 @@ public class OrganizationRepository implements EntityRepository<OrganizationBean
 	public boolean insertRow(OrganizationBean t) {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO t_organization " + 
-				"(id, code, name, abbr, regionid, region, address, phone, principal, mobile, fax, createtime, createuid, updatetime, updateuid)  " + 
+				"(id, code, name, abbr, regionid, region, address, phone, principal, mobile, fax,email,businesslicense,status,audituser, createtime, createuid, updatetime, updateuid)  " + 
 				"VALUES ('"+ef.getId()+"', '"+t.getCode()+"', '"+t.getName()+"', '"+t.getAbbr()+"', '"+t.getRegionid()+"', '"+t.getRegion()+"', "
-				+ "'"+t.getAddress()+"', '"+t.getPhone()+"', '"+t.getPrincipal()+"', '"+t.getMobile()+"', '"+t.getFax()+"', now(), "
+				+ "'"+t.getAddress()+"', '"+t.getPhone()+"', '"+t.getPrincipal()+"', '"+t.getMobile()+"', '"+t.getFax()+"','"+t.getEmail()+"','"+t.getBusinesslicense()+"',"+t.getStatus()+",'"+t.getAudituser()+"', now(), "
 				+ "'"+t.getCreateuid()+"', now(), '"+t.getUpdateuid()+"')";
 		return ef.update(sql);
 	}
@@ -34,7 +34,7 @@ public class OrganizationRepository implements EntityRepository<OrganizationBean
 		String sql = "UPDATE t_organization " + 
 				"SET code = '"+t.getCode()+"', name = '"+t.getName()+"', abbr = '"+t.getAbbr()+"', regionid = '"+t.getRegionid()+"', region = '"+t.getRegion()+"', "
 				+ "address = '"+t.getAddress()+"', phone = '"+t.getPhone()+"', principal = '"+t.getPrincipal()+"', mobile = '"+t.getMobile()+"', "
-				+ "fax = '"+t.getFax()+"', createtime = now(), createuid = '"+t.getCreateuid()+"', "
+				+ "fax = '"+t.getFax()+"',email='"+t.getEmail()+"',businesslicense='"+t.getBusinesslicense()+"',status="+t.getStatus()+",audituser='"+t.getAudituser()+"', createtime = now(), createuid = '"+t.getCreateuid()+"', "
 				+ "updatetime = now(), updateuid = '"+t.getUpdateuid()+"' " + 
 				"WHERE id = '"+t.getId()+"'";
 		return ef.update(sql);

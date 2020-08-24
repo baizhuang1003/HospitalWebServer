@@ -1,16 +1,25 @@
 package com.tianyuan.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tianyuan.bean.ServiceBean;
+import com.tianyuan.core.AjaxResult;
+import com.tianyuan.core.EntityPager;
 import com.tianyuan.model.UserOverload;
+import com.tianyuan.repository.ServiceRepository;
 
 @RestController
 public class ServiceController extends BaseManageController {
 
-private final String moduleid = "100101";
+	private final String moduleid = "700101";
+	@Autowired
+	ServiceRepository serviceRepository;
 	
 	@GetMapping("service/index")
 	public ModelAndView index() {
@@ -23,14 +32,48 @@ private final String moduleid = "100101";
 		return model;
 	}
 	
+	@PostMapping("service/list")
+	public EntityPager<Map<String, Object>> list(int page,int rows,int pid){
+		Initialize();
+        String where ="1=1";
+        if(pid>0) where += " and pid= "+pid;
+        return serviceRepository.pageSelectAll(page, rows, where, "updatetime desc");
+	}
+	
 	@GetMapping("service/edit")
 	public ModelAndView edit(String id) {
 		Initialize();
-		//DeptBean entity = deptRepository.selectRow(" id='"+id+"'");
-		//if(entity==null) entity = new DeptBean();
+		ServiceBean entity = serviceRepository.selectRow(" id='"+id+"'");
+		if(entity==null) entity = new ServiceBean();
 		ModelAndView model = new ModelAndView();
-		//model.addObject("entity", entity);
+		model.addObject("entity", entity);
 		model.setViewName(prefix+"/service/edit");
 		return model;
+	}
+	
+	@PostMapping("service/edit")
+	public AjaxResult edit(ServiceBean entity) {
+		Initialize();
+        if (serviceRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"'")) return onFailed("服务项目已存在");
+        try {
+        	if (entity.getId()<1) serviceRepository.insertRow(entity);
+        	else serviceRepository.updateRow(entity);
+        	return onSuccess("保存成功");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return onFailed("保存失败");
+		}
+	}
+	
+	@PostMapping("service/delete")
+	public AjaxResult delete(String id) {
+		if (id==null || id.equals("")) return onFailed("参数错误");
+		try {
+			serviceRepository.deleteRow(" id='"+id+"'");
+			return onSuccess("删除成功");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return onFailed("删除失败");
+		}
 	}
 }

@@ -138,7 +138,7 @@ function newModel() {
 function editModel() {
 	var row = $('#dg').datagrid('getSelected');
 	if (row) {
-		$('#dlg').dialog({ href: '/manage/base/dept/edit?id=' + row.id, title: '编辑' }).dialog('open').dialog('center');
+		$('#dlg').dialog({ href: '/manage/dept/edit?id=' + row.id, title: '编辑' }).dialog('open').dialog('center');
 	}
 }
 function saveModel() {

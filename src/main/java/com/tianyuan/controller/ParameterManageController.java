@@ -45,7 +45,7 @@ public class ParameterManageController extends BaseManageController {
 		if(entity==null) entity = new ParameterBean();
 		ModelAndView model = new ModelAndView();
 		model.addObject("entity", entity);
-		model.setViewName(prefix+"/nursery/edit");
+		model.setViewName(prefix+"/parameter/edit");
 		return model;
 	}
 	

@@ -34,6 +34,8 @@ public class OrganizationBean {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	
 	public String getCode() {
 		return code;
 	}

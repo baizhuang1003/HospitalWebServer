@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-
+<form method="post">
+	<input type="hidden" name="id" id="id" th:value="${entity.id}">
+	<table>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-numberbox" name="code" id="code" data-options="label:'序号',required:true" style="width: 100%;" th:value="${entity.code}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-textbox" name="nerseryid" id="nerseryid" data-options="label:'托养方式',required:true" style="width: 100%;" th:value="${entity.nerseryid}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-textbox" name="name" id="name" data-options="label:'服务名称',required:true" style="width: 100%;" th:value="${entity.name}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-textbox" name="fee" id="fee" data-options="label:'收费标准',required:true" style="width: 100%;" th:value="${entity.fee}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-combobox" name="status" id="status" data-options="label:'是否启用'" style="width: 98%;" th:value="${entity.status}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-textbox" name="remark" id="remark" data-options="label:'备注',multiline:true" style="width: 100%;height: 60px;" th:value="${entity.remark}"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+$('#dlg').dialog('center');
+$(function () {
+	$('#status').combobox({
+        editable: false,
+        url: '',
+        method:'get',
+        valueField: 'id',
+        textField: 'text',
+        data:[{
+	    	"id":0,
+	    	"text":"否"
+	    },{
+	        "id":1,
+	        "text":"是"
+	    }]
+    });
+	
+	$('#nerseryid').combobox({
+		editable: false,
+		method:'get',
+		url:'/manage/nursery/dictlist',
+	    valueField:'id',
+	    textField:'text'
+	});
+});
+</script>
 </body>
 </html>

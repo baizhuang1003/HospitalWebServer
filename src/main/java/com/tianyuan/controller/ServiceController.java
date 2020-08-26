@@ -33,10 +33,10 @@ public class ServiceController extends BaseManageController {
 	}
 	
 	@PostMapping("service/list")
-	public EntityPager<Map<String, Object>> list(int page,int rows,int pid){
+	public EntityPager<Map<String, Object>> list(int page,int rows,int nid){
 		Initialize();
         String where ="1=1";
-        if(pid>0) where += " and pid= "+pid;
+        if(nid>0) where += " and nerseryid= "+nid;
         return serviceRepository.pageSelectAll(page, rows, where, "updatetime desc");
 	}
 	

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-
+<form method="post">
+	<input type="hidden" name="id" id="id" th:value="${entity.id}">
+	<table>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-textbox" name="name" id="name" data-options="label:'名称',required:true" style="width: 100%;" th:value="${entity.name}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-combobox" name="status" id="status" data-options="label:'是否启用'" style="width: 98%;" th:value="${entity.status}"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+$('#dlg').dialog('center');
+$(function () {
+	$('#status').combobox({
+        editable: false,
+        url: '',
+        method:'get',
+        valueField: 'id',
+        textField: 'text',
+        data:[{
+	    	"id":0,
+	    	"text":"否"
+	    },{
+	        "id":1,
+	        "text":"是"
+	    }]
+    });
+});
+</script>
 </body>
 </html>

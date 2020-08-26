@@ -6,7 +6,7 @@
 <div class="easyui-layout" data-options="fit:true">
     <div id="north" data-options="region:'north'" style="height:38px; ">
     	
-       <label style="width:60px;display: inline-block;">托养方式</label>
+       <label style="width:60px;display: inline-block;">托养方式:</label>
        <input id="nursery" name="nursery" class="easyui-textbox" style="width:120px;">
         
         <th:block th:if="${entity.IsAdd}">
@@ -31,7 +31,7 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
 </div>
 <script type="text/javascript">
-var pid = 0;
+var id = 0;
 $(function(){
 	nurseryDrop();
 	makeGrid();
@@ -42,7 +42,7 @@ function makeGrid() {
 		idField: 'id',
 		rownumbers: true,
 		singleSelect: true,
-		queryParams: {pid:pid},
+		queryParams: {nid:id},
 		fit:true,
 		pagination: true,
 		rownumbers:true,
@@ -50,9 +50,9 @@ function makeGrid() {
 		pageList: [10, 20, 30, 40, 50],
 		columns: [
         	[
-        		{ field:'code',title:'编号',width:150,align:'center' },
-        		{ field:'nurseryname',title:'托养方式',width:120,align:'center' },
-        		{ field:'name',title:'项目名称',width:120,align:'center' },
+        		//{ field:'code',title:'编号',width:150,align:'center' },
+        		{ field:'nurseryname',title:'托养方式',width:150,align:'center' },
+        		{ field:'name',title:'项目名称',width:150,align:'center' },
         		{ field:'fee',title:'收费标准',width:120,align:'center' },
         		{ field:'status',title:'是否启用',width:160,align:'center', formatter: function (value) {
                     switch (value) {
@@ -119,7 +119,11 @@ function nurseryDrop(){
 	    url: '/manage/nursery/dictlist',
 	    method:'get',
 	    valueField: 'id',
-	    textField: 'text'
+	    textField: 'text',
+	    onSelect: function(data){
+	    	id=data.id;
+	    	makeGrid();
+        }
 	});
 	
 }

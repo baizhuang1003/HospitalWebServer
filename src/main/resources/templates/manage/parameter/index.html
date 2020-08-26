@@ -8,9 +8,8 @@
         <th:block th:if="${entity.IsEdit}">
         	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-edit'" onclick="editModel()">编辑</a>
         </th:block>
-        
     </div>
-    <div data-options="region:'center',title:'托养方式列表',iconCls:'icon-grid'">
+    <div data-options="region:'center',title:'参数列表',iconCls:'icon-grid'">
         <table id="dg"></table>
     </div>
 </div>
@@ -38,7 +37,7 @@ function makeGrid() {
 		pageList: [10, 20, 30, 40, 50],
 		columns: [
         	[
-        		{ field:'code',title:'编号',width:150,align:'center' },
+        		{ field:'id',title:'编号',width:80,align:'center' },
         		{ field:'name',title:'名称',width:120,align:'center' },
         		{ field:'status',title:'是否启用',width:160,align:'center', formatter: function (value) {
                     switch (value) {
@@ -46,38 +45,17 @@ function makeGrid() {
                     case 1: return '是';
                     default: return '';
                 }
-            } },
-        		{ field:'phone',title:'备注',width:160,align:'center' },
+            } }
         	]
         ]
 	});
 }
-//添加
-function newModel() {
-    $('#dlg').dialog({ href: '/manage/parameter/edit?id=', title: '添加' }).dialog('open').dialog('center');
-}
+
 //修改
 function editModel() {
     var row = $('#dg').datagrid('getSelected');
     if (row) {
         $('#dlg').dialog({ href: '/manage/parameter/edit?id='+row.id, title: '编辑' }).dialog('open').dialog('center');
-    }
-}
-//删除
-function destroyModel() {
-    var row = $('#dg').datagrid('getSelected');
-    if (row) {
-        $.messager.confirm('提示', '确定要删除吗?', function (r) {
-            if (r) {
-                $.post('/manage/parameter/delete', { id: row.id }, function (result) {
-                    if (result.code=='200') {
-                        $('#dg').datagrid('reload');
-                    } else {
-                        messageAlert('提示', result.message, 'error');
-                    }
-                }, 'json');
-            }
-        });
     }
 }
 //保存

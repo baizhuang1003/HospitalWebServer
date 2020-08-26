@@ -10,7 +10,7 @@ import java.util.Date;
 public class UserBean {
 
 	private int sex,deptid,ismanager;
-	private String id,orgcode,name,mobile,email,avatar,username,password,roleid,createuid,updateuid;
+	private String id,orgcode,name,mobile,email,avatar,username,password,roleid,createuid,updateuid,regionid,region,address,img;
 	private Date createtime,updatetime;
 	
 	
@@ -111,6 +111,32 @@ public class UserBean {
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
+	public String getRegionid() {
+		return regionid;
+	}
+	public void setRegionid(String regionid) {
+		this.regionid = regionid;
+	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
+	
+	
 	
 	
 }

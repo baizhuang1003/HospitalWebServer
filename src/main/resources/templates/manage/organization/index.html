@@ -5,7 +5,9 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="north" data-options="region:'north'" style="height:38px; ">
-
+		<label style="width:60px;display: inline-block;">认证状态:</label>
+       <input id="status" name="status" class="easyui-textbox" style="width:120px;">
+       
         <th:block th:if="${entity.IsAdd}">
     		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
     	</th:block>
@@ -14,17 +16,26 @@
         </th:block>
         <th:block th:if="${entity.IsDelete}">
         	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
+        </th:block> 
+        <th:block th:if="${entity.IsEditAcount}">
+        	<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-man" onclick="editMan()">管理员账号</a>
         </th:block>
     </div>
     <div data-options="region:'center',title:'机构列表',iconCls:'icon-grid'">
         <table id="dg"></table>
     </div>
 </div>
-<div id="dlg" class="easyui-dialog" style="width:360px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-</div>
+<div id="dlg" class="easyui-dialog" style="width:600px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'"></div>
 <div id="dlg-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveModel()" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
+</div>
+
+<div id="dlgman" class="easyui-dialog" style="width:360px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgman-buttons'">
+</div>
+<div id="dlgman-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveMan()" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript: $('#dlgman').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
 </div>
 <script type="text/javascript">
 $(function(){
@@ -32,7 +43,7 @@ $(function(){
 })
 function makeGrid() {
 	$('#dg').datagrid({
-		url: '/manage/organization/list',
+		url: '/manage/organ/list',
 		idField: 'id',
 		rownumbers: true,
 		singleSelect: true,
@@ -45,28 +56,38 @@ function makeGrid() {
 		columns: [
         	[
         		{ field:'code',title:'编号',width:150,align:'center' },
-        		{ field:'regionid',title:'地区编码',width:120,align:'center' },
         		{ field:'name',title:'机构名称',width:160,align:'center'},
         		{ field:'abbr',title:'备注',width:160,align:'center' },
         		{ field:'phone',title:'电话',width:120,align:'center' },
-        		{ field:'status',title:'邮箱',width:160,align:'center'},
-        		{ field:'phone',title:'网址',width:160,align:'center' },
-        		{ field:'name',title:'地址',width:120,align:'center' },
-        		{ field:'status',title:'认证状态',width:160,align:'center'},
-        		{ field:'phone',title:'营业执照',width:160,align:'center' },
+        		{ field:'principal',title:'负责人',width:160,align:'center' },
+        		{ field:'mobile',title:'手机号',width:120,align:'center' },
+        		{ field:'email',title:'邮箱',width:160,align:'center'},
+        		{ field:'fax',title:'网址',width:160,align:'center' },
+        		{ field:'region',title:'地址',width:120,align:'center' },
+        		{ field:'status',title:'认证状态',width:160,align:'center', formatter: function (value) {
+                    switch (value) {
+                    case 0: return '未认证';
+                    case 1: return '待审核';
+                    case 2: return '已审核';
+                    default: return '';
+                }
+            }},
+        		{ field:'businesslicense',title:'营业执照',width:160,align:'center', formatter: function (value) {
+                    return '查看';
+            } },
         	]
         ]
 	});
 }
 //添加
 function newModel() {
-    $('#dlg').dialog({ href: '/manage/organization/edit?id=', title: '添加' }).dialog('open').dialog('center');
+    $('#dlg').dialog({ href: '/manage/organ/edit?id=', title: '添加' }).dialog('open').dialog('center');
 }
 //修改
 function editModel() {
     var row = $('#dg').datagrid('getSelected');
     if (row) {
-        $('#dlg').dialog({ href: '/manage/organization/edit?id='+row.id, title: '编辑' }).dialog('open').dialog('center');
+        $('#dlg').dialog({ href: '/manage/organ/edit?id='+row.id, title: '编辑' }).dialog('open').dialog('center');
     }
 }
 //删除
@@ -75,7 +96,7 @@ function destroyModel() {
     if (row) {
         $.messager.confirm('提示', '确定要删除吗?', function (r) {
             if (r) {
-                $.post('/manage/organization/delete', { id: row.id }, function (result) {
+                $.post('/manage/organ/delete', { id: row.id }, function (result) {
                     if (result.code=='200') {
                         $('#dg').datagrid('reload');
                     } else {
@@ -88,8 +109,14 @@ function destroyModel() {
 }
 //保存
 function saveModel() {
+	var regionid;
+    if (!regionid) regionid = $('#zoneid').combobox('getValue');
+    if (!regionid) regionid = $('#cityid').combobox('getValue');
+    if (!regionid) regionid = $('#provinceid').combobox('getValue');
+    $('#regionid').val(regionid);
+    $('#region').val($('#provinceid').combobox('getText') + $('#cityid').combobox('getText') + $('#zoneid').combobox('getText'));
     $('#dlg').find('form:eq(0)').form('submit', {
-        url: '/manage/organization/edit',
+        url: '/manage/organ/edit',
         onSubmit: function () {
             return $(this).form('validate');
         },
@@ -103,6 +130,14 @@ function saveModel() {
             }
         }
     });
+}
+
+//管理员账号
+function editMan() {
+    var row = $('#dg').datagrid('getSelected');
+    if (row) {
+        $('#dlgman').dialog({ href: '/manage/organ/editmanager?pid=' + row.id, title: '管理员账号' }).dialog('open').dialog('center');
+    }
 }
 </script>
 </body>

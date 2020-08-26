@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<form method="post">
+	<input type="hidden" id="id" name="id" th:value="${entity.id}" />
+	<input type="hidden" id="orgcode" name="orgcode" th:value="${entity.orgcode}" />
+	<table>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-textbox" name="username" id="username" data-options="label:'账号',required:true" style="width: 100%;" th:value="${entity.username}"/>
+            </td>
+        </tr>
+        <tr style="margin-bottom: 10px; display: inline-block;">
+            <td style="width:300px;">
+            	<input class = "easyui-passwordbox" name="password" id="password" data-options="label:'密码',required:true" style="width: 100%;" th:value="${entity.password}"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+$('#dlgman').dialog('center');
+</script>
+</body>
+</html>

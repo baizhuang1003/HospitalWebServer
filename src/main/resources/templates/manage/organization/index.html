@@ -6,8 +6,9 @@
 <div class="easyui-layout" data-options="fit:true">
     <div id="north" data-options="region:'north'" style="height:38px; ">
 		<label style="width:60px;display: inline-block;">认证状态:</label>
-       <input id="status" name="status" class="easyui-textbox" style="width:120px;">
-       
+       	<input id="status" name="status" class="easyui-textbox" style="width:120px;">
+       	<input id="keyword" name="keyword" class="easyui-textbox" style="width:160px;height:32px;" prompt="输入搜索关键字">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-search" onclick="searchModel()">查询</a>
         <th:block th:if="${entity.IsAdd}">
     		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
     	</th:block>
@@ -39,6 +40,7 @@
 </div>
 <script type="text/javascript">
 $(function(){
+	onState();
 	makeGrid();
 })
 function makeGrid() {
@@ -47,7 +49,7 @@ function makeGrid() {
 		idField: 'id',
 		rownumbers: true,
 		singleSelect: true,
-		queryParams: {},
+		queryParams: {status:0, keyword:""},
 		fit:true,
 		pagination: true,
 		rownumbers:true,
@@ -138,6 +140,50 @@ function editMan() {
     if (row) {
         $('#dlgman').dialog({ href: '/manage/organ/editmanager?pid=' + row.id, title: '管理员账号' }).dialog('open').dialog('center');
     }
+}
+
+function saveMan() {
+    $('#dlgman').find('form:eq(0)').form('submit', {
+        url: '/manage/organ/editmanager',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var result = eval('(' + result + ')');
+            if (result.code!='200') {
+                messageAlert('提示', result.message, 'error');
+            } else {
+                $('#dlgman').dialog('close');        // close the dialog
+            }
+        }
+    });
+}
+
+function searchModel() {
+    $('#dg').datagrid({ url: '/manage/organ/list', queryParams: { status: $('#status').combobox('getValue'), keyword: $('#keyword').textbox('getText') } });
+}
+
+//状态
+function onState(){
+	$('#status').combobox({
+		valueField:'id',
+	    textField:'text',
+	    editable:false,
+	    height:'30',
+	    data:[{
+	        "id":0,
+	        "text":"全部"
+	    },{
+	        "id":1,
+	        "text":"未认证"
+	    },{
+	    	"id":2,
+	    	"text":"认证中"
+	    },{
+	    	"id":3,
+	    	"text":"已认证"
+	    }]
+	})
 }
 </script>
 </body>

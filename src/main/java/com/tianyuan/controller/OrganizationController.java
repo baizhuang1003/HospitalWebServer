@@ -40,11 +40,18 @@ public class OrganizationController extends BaseManageController {
 	}
 	
 	@PostMapping("organ/list")
-	public EntityPager<OrganizationBean> list(int page,int rows){
+	public EntityPager<OrganizationBean> list(int page,int rows,int status,String keyword){
 		Initialize();
 		if(page<1)page=1;
 		if(rows<1)rows=10;
 		String where = getWhere();
+		if(status>0) {
+			int s = status-1;
+			where +=  " and status = "+s;
+		}
+		if (keyword !=null && !keyword.equals(""))
+            where += " and (name like '%" + keyword + "%' or abbr like '%" + keyword + "%')";
+		System.out.println(where);
 		String order = " code asc";
 		EntityPager<OrganizationBean> list = organizationRepository.pageSelect(page,rows,where,order);
 		return list;

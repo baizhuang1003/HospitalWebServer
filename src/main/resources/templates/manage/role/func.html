@@ -52,7 +52,7 @@ $(function(){
 })
 function makeTree() {
     $('#tt').tree({
-        url: '/manage/base/role/gettree?id='+$('#roleid').val(),
+        url: '/manage/role/gettree?id='+$('#roleid').val(),
         method:'get',
         checkbox: true,
         onLoadSuccess: function () {

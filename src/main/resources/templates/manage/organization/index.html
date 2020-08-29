@@ -18,6 +18,9 @@
         <th:block th:if="${entity.IsDelete}">
         	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
         </th:block> 
+        <th:block th:if="${entity.IsAudit}">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-form" onclick="auditModel()">送审</a>
+        </th:block>
         <th:block th:if="${entity.IsEditAcount}">
         	<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-man" onclick="editMan()">管理员账号</a>
         </th:block>
@@ -37,6 +40,12 @@
 <div id="dlgman-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveMan()" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript: $('#dlgman').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
+</div>
+<div id="dlgaudit" class="easyui-dialog" style="width:500px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgaudit-buttons',cache:false">
+</div>
+<div id="dlgaudit-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveAudit()" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript: $('#dlgaudit').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
 </div>
 <script type="text/javascript">
 $(function(){
@@ -68,15 +77,15 @@ function makeGrid() {
         		{ field:'region',title:'地址',width:120,align:'center' },
         		{ field:'status',title:'认证状态',width:160,align:'center', formatter: function (value) {
                     switch (value) {
-                    case 0: return '未认证';
+                    case 0: return '草稿';
                     case 1: return '待审核';
                     case 2: return '已审核';
                     default: return '';
                 }
             }},
-        		{ field:'businesslicense',title:'营业执照',width:160,align:'center', formatter: function (value) {
-                    return '查看';
-            } },
+        		//{ field:'businesslicense',title:'营业执照',width:160,align:'center', formatter: function (value) {
+                    //return '查看';
+            //} },
         	]
         ]
 	});
@@ -99,10 +108,11 @@ function destroyModel() {
         $.messager.confirm('提示', '确定要删除吗?', function (r) {
             if (r) {
                 $.post('/manage/organ/delete', { id: row.id }, function (result) {
+                	alert(result)
                     if (result.code=='200') {
                         $('#dg').datagrid('reload');
                     } else {
-                        messageAlert('提示', result.message, 'error');
+                        messageAlert('提示', result.msg, 'error');
                     }
                 }, 'json');
             }
@@ -139,6 +149,34 @@ function editMan() {
     var row = $('#dg').datagrid('getSelected');
     if (row) {
         $('#dlgman').dialog({ href: '/manage/organ/editmanager?pid=' + row.id, title: '管理员账号' }).dialog('open').dialog('center');
+    }
+}
+
+//删除
+function auditModel() {
+    var row = $('#dg').datagrid('getSelected');
+        
+    if (row) {
+    	if (row.status != 0 ) {
+
+            messageAlert('提示', '机构信息不需要审核', 'warning');
+            return;
+        }
+        $.messager.confirm('提示', '确定要送审吗?', function (r) {
+            if (r) {
+                $.post('/manage/organ/review', { id: row.id }, function (result) {
+                	//alert(JSON.stringify(result))
+                    if (result.code=='200') {
+                    	messageAlert('提示', result.message, function(){
+                    		
+                    	});
+                    	$('#dg').datagrid('reload'); 
+                    } else {
+                        messageAlert('提示', result.message, 'error');
+                    }
+                }, 'json');
+            }
+        });
     }
 }
 

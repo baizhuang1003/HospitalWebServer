@@ -71,7 +71,7 @@ function saveModel() {
         values += ',';
         values += nodes[i].id;
     }
-    $.post("/manage/base/role/savefunc", { id: $('#roleid').val(), funcs: values }, function (result) {
+    $.post("/manage/role/savefunc", { id: $('#roleid').val(), funcs: values }, function (result) {
         messageAlert('提示', result.message, 'info');
     }, 'json');
 }

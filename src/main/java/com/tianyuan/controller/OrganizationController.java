@@ -1,5 +1,8 @@
 package com.tianyuan.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tianyuan.bean.OrganizationBean;
+import com.tianyuan.bean.RegionBean;
 import com.tianyuan.bean.UserBean;
 import com.tianyuan.core.AjaxResult;
 import com.tianyuan.core.Common;
 import com.tianyuan.core.Convertor;
+import com.tianyuan.core.EntityDrop;
 import com.tianyuan.core.EntityPager;
 import com.tianyuan.model.UserOverload;
 import com.tianyuan.repository.OrganizationRepository;
@@ -39,6 +44,17 @@ public class OrganizationController extends BaseManageController {
 		return model;
 	}
 	
+	@GetMapping("organaudit/index")
+	public ModelAndView organindex() {
+		Initialize();
+		ModelAndView model = new ModelAndView();
+		this.OverloadMemberLimit(moduleid);
+		UserOverload entity = new UserOverload(this);
+		model.addObject("entity", entity);
+		model.setViewName(prefix+"/certification/index");
+		return model;
+	}
+	
 	@PostMapping("organ/list")
 	public EntityPager<OrganizationBean> list(int page,int rows,int status,String keyword){
 		Initialize();
@@ -51,7 +67,18 @@ public class OrganizationController extends BaseManageController {
 		}
 		if (keyword !=null && !keyword.equals(""))
             where += " and (name like '%" + keyword + "%' or abbr like '%" + keyword + "%')";
-		System.out.println(where);
+		String order = " code asc";
+		EntityPager<OrganizationBean> list = organizationRepository.pageSelect(page,rows,where,order);
+		return list;
+	}
+	
+	@PostMapping("organaudit/list")
+	public EntityPager<OrganizationBean> list(int page,int rows,int status){
+		Initialize();
+		if(page<1)page=1;
+		if(rows<1)rows=10;
+		String where = getWhere();
+		where +=  " and status = "+status;
 		String order = " code asc";
 		EntityPager<OrganizationBean> list = organizationRepository.pageSelect(page,rows,where,order);
 		return list;
@@ -182,6 +209,86 @@ public class OrganizationController extends BaseManageController {
 		}
 	}
 	
+	//审核
+		@GetMapping("organ/audit")
+		public ModelAndView audit(String id) {
+			Initialize();
+			ModelAndView model = new ModelAndView();
+			OrganizationBean entity = organizationRepository.selectRow(" id='"+id+"'");
+			entity.setStatus(2);
+			model.addObject("entity", entity);
+			model.setViewName(prefix+"/organization/audit");
+			return model;
+		}
+		
+		@PostMapping("organ/audit")
+		public AjaxResult audit(OrganizationBean entity) {
+			Initialize();
+			entity.setAudituser(this.getUserId());
+	        entity.setUpdateuid(this.getUserId());
+	        try {
+	        	
+	        	 organizationRepository.updateRow(entity);
+	        	 return onSuccess("审核完成");
+			} catch (Exception e) {
+				// TODO: handle exception
+				return onFailed("审核失败");
+			}
+		}
 	
+		@PostMapping("organ/review")
+		public AjaxResult review(String id) {
+			Initialize();
+			if (id==null || id.equals("")) return onFailed("参数错误");
+			if(getOrganLevel()==0) return onFailed("组织结构不正确");
+			OrganizationBean entity = organizationRepository.selectRow("id='"+id+"'");
+			
+			if (entity.getStatus() != 0) return onFailed("只有待提交状态可以送审");
+			
+			entity.setUpdateuid(getUserId());
+			entity.setStatus(1);
+			 try {
+				 organizationRepository.updateRow(entity);
+	             return onSuccess("送审成功");
+			} catch (Exception e) {
+				// TODO: handle exception
+				return onFailed("送审失败");
+			}
+		}
+		
+		@GetMapping("organ/auditlist")
+		public List<EntityDrop> auditList(){
+			List<EntityDrop> result = new ArrayList<EntityDrop>();
+			result.add(new EntityDrop("0","") {});
+			result.add(new EntityDrop("1","") {});
+			result.add(new EntityDrop("2","通过") {});
+			result.add(new EntityDrop("3","驳回") {});
+			return result;
+		}
+		
+		/**
+		 * 获取机构列表
+		 * @param id
+		 * @return
+		 */
+		@GetMapping("organdrop/list")
+		public List<EntityDrop> list(String id){
+			if(id==null) id="";
+			List<EntityDrop> list = new ArrayList<EntityDrop>();
+			EntityDrop drop = new EntityDrop();
+			drop.setId("000000");
+			drop.setText("");
+	        list.add(drop);
+	        String where =" code = "+id;
+			List<OrganizationBean> temp = organizationRepository.selectAll(where, "code asc");
+	        for (OrganizationBean item : temp){
+	        	EntityDrop entity = new EntityDrop();
+	        	entity.setId(item.getCode().substring(0,6));
+	        	entity.setText(item.getName());
+	            list.add(entity);
+	        }
+	        return list;
+		}
+		
 	
 }

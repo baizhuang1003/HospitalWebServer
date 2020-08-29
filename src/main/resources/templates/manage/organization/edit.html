@@ -56,6 +56,7 @@
 <script type="text/javascript">
 $('#dlg').dialog('center');
 $(function(){
+	alert($('#OrganCode').val())
 	$('#code').combobox({
         editable: false,
         url: '/manage/region/list?id='+$('#OrganCode').val(),

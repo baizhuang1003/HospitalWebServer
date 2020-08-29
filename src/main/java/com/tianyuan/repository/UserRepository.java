@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tianyuan.bean.UserBean;
+import com.tianyuan.core.Common;
 import com.tianyuan.core.EntityBinder;
 import com.tianyuan.core.EntityFreamwork;
 import com.tianyuan.core.EntityMapper;
@@ -21,8 +22,8 @@ public class UserRepository implements EntityRepository<UserBean> {
 	public boolean insertRow(UserBean t) {
 		// TODO Auto-generated method stub
 		String sql=" INSERT INTO t_user" + 
-				"(id, orgcode, name, sex, mobile, email, avatar, username, password, deptid, roleid, ismanager, createuid, createtime, updateuid, updatetime) " + 
-				"VALUES ('"+ef.getId()+"', '"+t.getOrgcode()+"', '"+t.getName()+"', "+t.getSex()+", '"+t.getMobile()+"', '"+t.getEmail()+"', '"+t.getAvatar()+"', '"+t.getUsername()+"', '"+t.getPassword()+"', "+t.getDeptid()+", '"+t.getRoleid()+"', "+t.getIsmanager()+", '"+t.getCreateuid()+"', now());" + 
+				"(id, orgcode, name, sex, mobile, email, avatar, username, password, deptid, roleid, ismanager, createuid, createtime) " + 
+				"VALUES ('"+ef.getId()+"', '"+t.getOrgcode()+"', '"+t.getName()+"', "+t.getSex()+", '"+t.getMobile()+"', '"+t.getEmail()+"', '"+t.getAvatar()+"', '"+t.getUsername()+"', '"+Common.md5Encode(t.getPassword())+"', "+t.getDeptid()+", '"+t.getRoleid()+"', "+t.getIsmanager()+", '"+t.getCreateuid()+"', now());" + 
 				" ";
 		return ef.update(sql);
 	}

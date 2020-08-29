@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 import com.tianyuan.core.EntityFreamwork;
 import com.tianyuan.repository.DeptRepository;
+import com.tianyuan.repository.GuardionRepository;
+import com.tianyuan.repository.HomeRecordRepository;
 import com.tianyuan.repository.LimitRepository;
 import com.tianyuan.repository.NurseryRepository;
 import com.tianyuan.repository.OrganizationRepository;
 import com.tianyuan.repository.ParameterRepository;
+import com.tianyuan.repository.PatientRepository;
 import com.tianyuan.repository.RegionRepository;
 import com.tianyuan.repository.RoleRepository;
 import com.tianyuan.repository.ServiceRepository;
@@ -66,5 +69,16 @@ public class BaseAppServer extends CachingConfigurerSupport {
 	RegionRepository regionRepository() {
 		return new RegionRepository();
 	}
-	
+	@Bean
+	PatientRepository patientRepository() {
+		return new PatientRepository();
+	}
+	@Bean
+	GuardionRepository guardionRepository() {
+		return new GuardionRepository();
+	}
+	@Bean
+	HomeRecordRepository homeRecordRepository() {
+		return new HomeRecordRepository();
+	}
 }

@@ -25,7 +25,7 @@ public class OrganizationBean {
 	private Date updatetime;
 	private String updateuid;
 	
-	private String email,businesslicense,audituser;
+	private String email,businesslicense,audituser,remark;
 	
 	private int status;
 	public String getId() {
@@ -144,5 +144,13 @@ public class OrganizationBean {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+	
 	
 }

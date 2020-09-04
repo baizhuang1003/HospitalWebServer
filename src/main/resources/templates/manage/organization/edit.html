@@ -8,21 +8,28 @@
 	<input type="hidden" name="id" id="id" th:value="${entity.id}">
 	<input type="hidden" name="regionid" id="regionid" th:value="${entity.regionid}">
 	<input type="hidden" name="region" id="region" th:value="${entity.region}">
+	<input type="hidden" name="businesslicense" id="businesslicense" th:value="${entity.businesslicense}">
 	<table>
-        <tr style="margin-bottom: 10px; display: inline-block;">
+        <tr style="margin-bottom: 10px;">
             <td style="width:270px;padding-right: 8px;">
             	<input class = "easyui-combobox" name="code" id="code" data-options="label:'管属地区',required:true" style="width: 100%;" th:value="${entity.code}"/>
             </td>
             <td style="width:270px;">
             	<input class = "easyui-textbox" name="abbr" id="abbr" data-options="label:'简称'" style="width: 100%;" th:value="${entity.abbr}"/>
             </td>
+            <td rowspan="6" style="width:200px;text-align:center;">
+            	<img id="imgpic" style="width:200px;height:180px;border:1px solid #DDD;margin:0 auto;border-radius:3px;" th:src="@{${entity.businesslicense}}" >
+            	<div style="margin-left:5px;margin-right:5px;">
+                    <a href="#" class="easyui-linkbutton" onclick="upload(this)" data-options="border:false" style="width:100px;margin-left:10px;">营业执照上传</a>
+                </div>
+            </td>
         </tr>
-        <tr style="margin-bottom: 10px; display: inline-block;">
-            <td  style="width:550px;">
+        <tr style="margin-bottom: 10px; ">
+            <td colspan="2" style="width:270px;">
             	<input class = "easyui-textbox" name="name" id="name" data-options="label:'全称',required:true" style="width: 100%;" th:value="${entity.name}"/>
             </td>
         </tr>
-        <tr style="margin-bottom: 10px; display: inline-block;">
+        <tr style="margin-bottom: 10px;">
             <td style="width:270px;padding-right: 8px;">
             	<input class = "easyui-textbox" name="phone" id="phone" data-options="label:'办公电话'" style="width: 100%;" th:value="${entity.phone}"/>
             </td>
@@ -30,7 +37,10 @@
             	<input class = "easyui-textbox" name="fax" id="fax" data-options="label:'传真'" style="width: 100%;" th:value="${entity.fax}"/>
             </td>
         </tr>
-        <tr style="margin-bottom: 10px; display: inline-block;">
+        <tr>
+        	
+        </tr>
+        <tr style="margin-bottom: 10px;">
             <td style="width:270px;padding-right: 8px;">
             	<input class = "easyui-textbox" name="principal" id="principal" data-options="label:'负责人'" style="width: 100%;" th:value="${entity.principal}"/>
             </td>
@@ -39,24 +49,30 @@
             </td>
         </tr>
 
-        <tr style="margin-bottom: 10px; display: inline-block;">
+        <tr style="margin-bottom: 10px; ">
             <td colspan="2">
                 <input type="text" id="provinceid" name="provinceid" style="width:260px;" th:value="${provinceid}" />
                 <input type="text" id="cityid" name="cityid" style="width:141px;" th:value="${cityid}" />
                 <input type="text" id="zoneid" name="zoneid" style="width:141px;" th:value="${zoneid}" />
             </td>
         </tr>
-        <tr style="margin-bottom: 10px; display: inline-block;">
-            <td  style="width:550px;">
+        <tr style="margin-bottom: 10px;">
+            <td colspan="2"  style="width:270px;">
             	<input class = "easyui-textbox" name="address" id="address" data-options="label:'详细地址',multiline:true" style="width: 100%;height: 60px;" th:value="${entity.address}"/>
             </td>
         </tr>
     </table>
 </form>
+<div style="display:none;">
+    <form id="frmPic" method="post" enctype="multipart/form-data">
+        <input id="file1" name="file1" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" />
+    </form>
+</div>
 <script type="text/javascript">
 $('#dlg').dialog('center');
+var uploadElement;//上传图片按钮
 $(function(){
-	alert($('#OrganCode').val())
+	fileChange();
 	$('#code').combobox({
         editable: false,
         url: '/manage/region/list?id='+$('#OrganCode').val(),
@@ -95,6 +111,36 @@ $(function(){
         textField: 'text'
     });
 })
+function fileChange() {
+    $('#file1').change(function () {
+
+        if (!$(this).val()) return;
+
+        $('#frmPic').form('submit', {
+            url: '/manage/file/image',
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval( ' (' + result + ') ' );
+                if (result.code != '200') {
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.message
+                    });
+                } else {
+                    $(uploadElement).parent().parent().parent().find('img').attr('src', result.content);
+                }
+                $('#file1').val('');
+            }
+        });
+    });
+}
+
+function upload(ele) {
+    uploadElement = ele;
+    $('#file1').click();
+}
 </script>
 </body>
 </html>

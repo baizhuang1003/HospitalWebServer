@@ -131,6 +131,7 @@ public class OrganizationController extends BaseManageController {
 		if (entity.getId() == null) entity.setId("");
 		entity.setCreateuid(this.getUserId());
         entity.setUpdateuid(this.getUserId());
+        System.out.println(entity.getBusinesslicense());
         if (organizationRepository.exits("id <> '" + entity.getId() + "' and code ='" + entity.getCode() + "'")) return onFailed("组织机构已存在");
         try {
         	if (entity.getId()==null || entity.getId().equals("")) organizationRepository.insertRow(entity);

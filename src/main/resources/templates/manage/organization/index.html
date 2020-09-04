@@ -4,32 +4,49 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
+<div id="lt" class="easyui-layout" data-options="fit:true">
     <div id="north" data-options="region:'north'" style="height:38px; ">
-		<label style="width:60px;display: inline-block;">认证状态:</label>
-       	<input id="status" name="status" class="easyui-textbox" style="width:120px;">
-       	<input id="keyword" name="keyword" class="easyui-textbox" style="width:160px;height:32px;" prompt="输入搜索关键字">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-search" onclick="searchModel()">查询</a>
-        <th:block th:if="${entity.IsAdd}">
-    		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
-    	</th:block>
-        <th:block th:if="${entity.IsEdit}">
-        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-edit'" onclick="editModel()">修改</a>
-        </th:block>
-        <th:block th:if="${entity.IsDelete}">
-        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
-        </th:block> 
-        <th:block th:if="${entity.IsAudit}">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-form" onclick="auditModel()">送审</a>
-        </th:block>
-        <th:block th:if="${entity.IsEditAcount}">
-        	<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-man" onclick="editMan()">管理员账号</a>
-        </th:block>
+    	<form id="frmQuery">
+    		<table id="tbQuery">
+    			<tr>
+    			<td>
+	    			<th:block th:if="${entity.IsAdd}">
+	    				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
+			    	</th:block>
+			        <th:block th:if="${entity.IsEdit}">
+			        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-edit'" onclick="editModel()">修改</a>
+			        </th:block>
+			        <th:block th:if="${entity.IsDelete}">
+			        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
+			        </th:block> 
+			        <th:block th:if="${entity.IsAudit}">
+			            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-form" onclick="auditModel()">送审</a>
+			        </th:block>
+			        <th:block th:if="${entity.IsEditAcount}">
+			        	<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-man" onclick="editMan()">管理员账号</a>
+			        </th:block>
+			        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-search"  onclick="toggleSearch()">高级查询</a>
+			        </td>
+		       <tr/>
+		       <tr>
+		       		<td>
+		       			<label style="width:60px;display: inline-block;margin-left: 12px">认证状态:</label>
+				       	<input id="status" name="status" class="easyui-textbox" style="width:120px;">
+				       	<input id="keyword" name="keyword" class="easyui-textbox" style="width:160px;height:32px;" prompt="输入搜索关键字">
+				        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-search" onclick="searchModel()">查询</a>
+		       		</td>
+		       </tr>
+    		</table>
+    	</form>
+		
+        
     </div>
     <div data-options="region:'center',title:'机构列表',iconCls:'icon-grid'">
         <table id="dg"></table>
     </div>
+    </div>
 </div>
-<div id="dlg" class="easyui-dialog" style="width:600px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'"></div>
+<div id="dlg" class="easyui-dialog" style="width:900px;padding:20px;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'"></div>
 <div id="dlg-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveModel()" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">取消</a>
@@ -108,7 +125,6 @@ function destroyModel() {
         $.messager.confirm('提示', '确定要删除吗?', function (r) {
             if (r) {
                 $.post('/manage/organ/delete', { id: row.id }, function (result) {
-                	alert(result)
                     if (result.code=='200') {
                         $('#dg').datagrid('reload');
                     } else {
@@ -127,6 +143,7 @@ function saveModel() {
     if (!regionid) regionid = $('#provinceid').combobox('getValue');
     $('#regionid').val(regionid);
     $('#region').val($('#provinceid').combobox('getText') + $('#cityid').combobox('getText') + $('#zoneid').combobox('getText'));
+    $('#businesslicense').val($('#imgpic').attr('src'));
     $('#dlg').find('form:eq(0)').form('submit', {
         url: '/manage/organ/edit',
         onSubmit: function () {
@@ -152,10 +169,9 @@ function editMan() {
     }
 }
 
-//删除
+
 function auditModel() {
     var row = $('#dg').datagrid('getSelected');
-        
     if (row) {
     	if (row.status != 0 ) {
 
@@ -222,6 +238,18 @@ function onState(){
 	    	"text":"已认证"
 	    }]
 	})
+}
+
+function toggleSearch() {
+	$('#tbQuery').find('tr:eq(1)').toggle();
+	if ($('#tbQuery').find('tr:eq(1)').is(":hidden")) {
+		$('#lt').layout('panel', 'north').panel('resize', { height: 38 });
+		$('#lt').layout('resize');
+	}
+	else {
+		$('#lt').layout('panel', 'north').panel('resize', { height: 76 });
+		$('#lt').layout('resize');
+	}
 }
 </script>
 </body>

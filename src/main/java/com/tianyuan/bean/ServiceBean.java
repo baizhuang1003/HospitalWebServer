@@ -5,7 +5,7 @@ import java.util.Date;
 public class ServiceBean {
 
 	public int id,code,nerseryid,status;
-	public String regcode,name,fee,remark,createuid,updateuid;
+	public String orgcode,name,fee,remark,createuid,updateuid;
 	public Date createtime,updatetime;
 	public int getId() {
 		return id;
@@ -32,11 +32,12 @@ public class ServiceBean {
 		this.status = status;
 	}
 	
-	public String getRegcode() {
-		return regcode;
+	
+	public String getOrgcode() {
+		return orgcode;
 	}
-	public void setRegcode(String regcode) {
-		this.regcode = regcode;
+	public void setOrgcode(String orgcode) {
+		this.orgcode = orgcode;
 	}
 	public String getName() {
 		return name;

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianyuan.bean.ServiceBean;
 import com.tianyuan.core.AjaxResult;
+import com.tianyuan.core.EntityDrop;
 import com.tianyuan.core.EntityPager;
 import com.tianyuan.model.UserOverload;
 import com.tianyuan.repository.ServiceRepository;
@@ -55,6 +56,8 @@ public class ServiceController extends BaseManageController {
 	public AjaxResult edit(ServiceBean entity) {
 		Initialize();
         if (serviceRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"'")) return onFailed("服务项目已存在");
+        entity.setCreateuid(getUserId());
+        entity.setUpdateuid(getUserId());
         try {
         	if (entity.getId()<1) serviceRepository.insertRow(entity);
         	else serviceRepository.updateRow(entity);

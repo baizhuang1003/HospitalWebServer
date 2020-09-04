@@ -23,8 +23,8 @@ public class ServiceRepository implements EntityRepository<ServiceBean> {
 	public boolean insertRow(ServiceBean t) {
 		// TODO Auto-generated method stub
 		String sql =" INSERT INTO t_service_items" + 
-				"(code, nerseryid, regcode,name, fee, status, remark, createuid, createtime) " + 
-				"VALUES ("+t.getCode()+", "+t.getNerseryid()+",'"+t.getOrgcode()+"', '"+t.getName()+"', '"+t.getFee()+"', "+t.getStatus()+", '"+t.getRemark()+"', '"+t.getCreateuid()+"', now() ); ";
+				"(code, nerseryid, orgcode,name,name1, fee, status, remark, createuid, createtime) " + 
+				"VALUES ("+t.getCode()+", "+t.getNerseryid()+",'"+t.getOrgcode()+"', '"+t.getName()+"','"+t.getName1()+"', '"+t.getFee()+"', "+t.getStatus()+", '"+t.getRemark()+"', '"+t.getCreateuid()+"', now() ); ";
 		return ef.update(sql);
 	}
 
@@ -32,7 +32,7 @@ public class ServiceRepository implements EntityRepository<ServiceBean> {
 	public boolean updateRow(ServiceBean t) {
 		// TODO Auto-generated method stub
 		String sql =" UPDATE t_service_items " + 
-				"SET code = "+t.getCode()+" , nerseryid = "+t.getNerseryid()+",regcode ='"+t.getOrgcode()+"' ,name = '"+t.getName()+"', fee = '"+t.getFee()+"', status = "+t.getStatus()+", remark = '"+t.getRemark()+"', updateuid = '"+t.getUpdateuid()+"', updatetime = now() " + 
+				"SET code = "+t.getCode()+" , nerseryid = "+t.getNerseryid()+",orgcode ='"+t.getOrgcode()+"' ,name = '"+t.getName()+"',name1='"+t.getName1()+"', fee = '"+t.getFee()+"', status = "+t.getStatus()+", remark = '"+t.getRemark()+"', updateuid = '"+t.getUpdateuid()+"', updatetime = now() " + 
 				"WHERE id="+t.getId(); 
 		return ef.update(sql);
 	}

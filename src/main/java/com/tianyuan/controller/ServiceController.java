@@ -55,7 +55,7 @@ public class ServiceController extends BaseManageController {
 	@PostMapping("service/edit")
 	public AjaxResult edit(ServiceBean entity) {
 		Initialize();
-        if (serviceRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"'")) return onFailed("服务项目已存在");
+        if (serviceRepository.exits("id<>"+entity.getId()+" and name1='"+entity.getName1()+"'")) return onFailed("服务项目已存在");
         entity.setCreateuid(getUserId());
         entity.setUpdateuid(getUserId());
         try {

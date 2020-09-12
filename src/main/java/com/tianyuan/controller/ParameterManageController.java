@@ -32,9 +32,10 @@ public class ParameterManageController extends BaseManageController {
 	}
 	
 	@PostMapping("parameter/list")
-	public EntityPager<ParameterBean> list(int page,int rows,String pid){
+	public EntityPager<ParameterBean> list(int page,int rows){
 		Initialize();
-        EntityPager<ParameterBean> list = parameterRepository.pageSelect(page, rows, "", "id");
+		String where ="code='"+getCode()+"'";
+        EntityPager<ParameterBean> list = parameterRepository.pageSelect(page, rows, where, "sort");
         return list;
 	}
 	
@@ -52,7 +53,8 @@ public class ParameterManageController extends BaseManageController {
 	@PostMapping("parameter/edit")
 	public AjaxResult edit(ParameterBean entity) {
 		Initialize();
-        if (parameterRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"'")) return onFailed("托养方式已存在");
+        if (parameterRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"'")) return onFailed("参数已存在");
+        entity.setCode(getCode());
         try {
         	if (entity.getId()<1) parameterRepository.insertRow(entity);
         	else parameterRepository.updateRow(entity);

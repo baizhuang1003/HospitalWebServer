@@ -22,8 +22,8 @@ public class ParameterRepository implements EntityRepository<ParameterBean> {
 	public boolean insertRow(ParameterBean t) {
 		// TODO Auto-generated method stub
 		String sql =" INSERT INTO t_parameter" + 
-				"(sort, name, status, createuid, createtime) " + 
-				"VALUES ("+t.getSort()+", '"+t.getName()+"', "+t.getStatus()+", '"+t.getCreateuid()+"', now()); ";
+				"(sort, name,code, status, createuid, createtime) " + 
+				"VALUES ("+t.getSort()+", '"+t.getName()+"','"+t.getCode()+"', "+t.getStatus()+", '"+t.getCreateuid()+"', now()); ";
 		return ef.update(sql);
 	}
 
@@ -31,7 +31,7 @@ public class ParameterRepository implements EntityRepository<ParameterBean> {
 	public boolean updateRow(ParameterBean t) {
 		// TODO Auto-generated method stub
 		String sql =" UPDATE t_parameter " + 
-				"SET sort = "+t.getSort()+" , name = '"+t.getName()+"', status = "+t.getStatus()+",  updateuid = '"+t.getUpdateuid()+"', updatetime = now() " + 
+				"SET sort = "+t.getSort()+" , name = '"+t.getName()+"',code='"+t.getCode()+"', status = "+t.getStatus()+",  updateuid = '"+t.getUpdateuid()+"', updatetime = now() " + 
 				"WHERE id= "+t.getId();
 		return ef.update(sql);
 	}

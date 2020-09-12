@@ -6,7 +6,7 @@ public class ParameterBean {
 
 	private int id,sort,status;
 	
-	private String name,createuid,updateuid;
+	private String name,createuid,updateuid,code;
 	
 	private Date createtime,updatetime;
 
@@ -56,6 +56,16 @@ public class ParameterBean {
 
 	public void setUpdateuid(String updateuid) {
 		this.updateuid = updateuid;
+	}
+
+	
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Date getCreatetime() {

@@ -15,7 +15,7 @@ public class PatientBean {
     private String address;
     private int gender;
     private int age;
-    private int phone;
+    private String  phone;
     private int guardianid;
     private int organizationid;
     private int nurseryid;
@@ -114,10 +114,10 @@ public class PatientBean {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public int getGuardianid() {

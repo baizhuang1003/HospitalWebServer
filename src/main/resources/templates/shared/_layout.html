@@ -10,91 +10,51 @@
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icons/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/gray/easyui.css" />
-<link rel="stylesheet" type="text/css" href="/css/superGreen.css" />
-<script src="/js/common.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="/easyui/super/superGreen.css" />
 <script src="/easyui/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
-<script src="/js/pageSwitch.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/sui/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="/sui/js/selected.js" type="text/javascript" charset="utf-8"></script>
 <title th:text="${title}">Title</title>
 <style type="text/css">
 	html,body{
 		font-size: 14px;
 		color: #333;
-		height: 100%;
 	}
 	h3{
 		line-height: 40px;
+		color:#1abc9c;
 	}
 	.top{
-		height: 100px;
-		padding: 0px 10%;
+		height: 80px;padding: 0 15%;
+		background: #FFFFFF !important;
 	}
-	
-			
-	.usecontainer{
-		    width:800px;
-			height:526px;
-			background:#FFFFFF;
-			box-shadow:0px 0px 32px 0px rgba(0,0,0,0.2);
-			border-radius:10px;
-			position: absolute;
-			left: calc(50% - 400px);
-			top: calc(50% - 263px);
-			overflow: hidden;
-			}
+	.container{
+		background: url('/img/loginbg.png');background-size: 100% 100%;padding: 16px 15%;
+	}
+	.footer{
+		text-align: center;color: #a8a8a8;
+	}
 	.footer div:last-child{
 		font-size: 12px;
-		color: white;
 	}
 	.login-box{
-    	position: relative;
-    	margin:auto;
-    	border-radius: 10px;
-    	width: 400px;
-    	left: calc(50% - 250px);
-		top: calc(50% - 263px);
+		margin:auto;margin-top: 40px;background: #fff;border-radius: 10px;border: 1px solid #eee;padding: 15px;position: relative;width: 400px;
 	}
 	.register-box{
-		background: #fff;
-		border-radius: 8px;
-		border: 1px solid #eee;
-		padding: 20px;
-		position: relative;
-		width: 400px;
-		margin: 0 auto;
+		background: #fff;border-radius: 10px;border: 1px solid #eee;padding: 15px;position: relative;width: 400px;margin:auto;margin-top: 40px;
 	}
 	h3.title{
-			font-size: 36px;
-		    font-weight: bold;
-		    line-height: 34px;
-		    text-align: center;
-		    margin: 15px auto;
-	}
-	h6.title{
-		    line-height: 34px;
-		    text-align: center;
-		    margin: 15px auto;
-		    margin: auto
-	}
-	.clearfix{
-		clear:both;
+		padding: 0 20px;font-size: 18px;color:#666;
 	}
 	.login-btn-register,
 	.login-btn-register:link{
-		position: absolute;
-	    padding: 6px;
-	    bottom: -1px;
-	    font-size: 12px;
-	    width: 54px;
-	    right: -1px;
-	    background: #00D0A7;
-	    color: #fff;
-	    text-align: center;
-	    border-radius: 0 0 8px 0;
+		padding: 0 0 10px 20px;
+	    color: #CCCCCC;
 	}
 	.login-btn-register:hover{
-		color: #f6f6f6;
+		color: #00D0A7;
 	}
 	.logo-box{
 		float: left;
@@ -103,13 +63,13 @@
 	.login-list{
 		float: right;
 		line-height: 80px;
-		font-size: 15px;
+		font-size: 16px;
 	}
 	.login-list a,
 	.login-list a:link{
-		padding: 0 12px;
+		padding: 0 16px;
 		text-decoration: none;
-		color: #333;
+		color: #666;
 	}
 	.login-list a:hover{
 		color: #FA3;
@@ -120,10 +80,11 @@
 		font-size: 12px;
 		display: inline-block;
 		margin-bottom: 8px;
+		margin-top: 16px;
 	}
 	.bottom-list a{
 		padding: 0 12px;
-		color: #666;
+		color: #38adff;
 		text-decoration: none;
 		border-right: 1px solid #d6d1d1;
 	}
@@ -131,28 +92,86 @@
 		border-right: none;
 	}
 	.bottom-list a:hover{
-		color: #FA3;
+		color: #E60044;
 	}
-	.loader {
-        position: absolute;
-        left: 0;
-        top: 30px;
-        right: 0;
-        bottom: 0;
-        z-index: 1000;
-     }
-     .loader-mask {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 998;
-        background: #333;
-        filter: alpha(Opacity=20);
-        -moz-opacity: 0.2;
-        opacity: 0.2;
-      }
+	
+	
+	ul.nav{
+		padding: 8px 0;
+		margin: 0;
+		line-height: 30px;
+		color: #000;
+		font-size: 13px;
+		border-right: 1px solid #EEE;
+	}
+	
+	ul.nav li.item>div{
+		display: block;
+		cursor: pointer;
+		padding: 0px 16px;
+		color: #999;
+		font-size:12px;
+	}
+	ul.nav li.item>div img{
+		width: 16px;
+		height: 16px;
+		border: none;
+		margin-bottom: -2px;
+		margin-right: 8px;
+	}
+	
+	ul.nav-child{
+		
+	}
+	ul.nav-child li>span{
+		padding-left: 45px;
+	}
+	ul.nav-child li{
+		color: #333;
+		line-height: 28px;
+		cursor: pointer;
+	}
+	ul.nav-child li:hover{
+		color: #FFFFFF;
+    	background: #1abc9c;
+	}
+	
+	ul.nav-child li>i{
+	    font-size: 12px;
+	    margin-top: 9px;
+	    margin-left:6px;
+	    display: none;
+	}
+	ul.nav-child li.active{
+		    color: #FFFFFF;
+    		background: #1abc9c;
+	}
+	ul.nav-child li.active>i{
+		display: inline-block;
+		
+	}
+	
+	       .loader {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .loader-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 998;
+            background: #333;
+            filter: alpha(Opacity=20);
+            -moz-opacity: 0.2;
+            opacity: 0.2;
+        }
 
         .loader-message {
             width: 200px;
@@ -178,13 +197,14 @@
                 vertical-align: middle;
         }
         .main-title-right{
-        	float: right;line-height: 80px;font-size: 14px;
+        	float: right;padding: 0 24px 0 48px;line-height: 80px;font-size: 14px;
+			background: url(/img/title-right-bg.png) no-repeat;
         }
         .main-title-right a{
         	color: #FFF;
         	text-decoration: none;
-        	padding: 0px 10px;
-        	border-right: 1px solid #DDD;
+        	padding: 0px 12px;
+        	border-right: 1px solid #eee;
         	cursor: pointer;
         }
         .main-title-right a:last-child{
@@ -194,26 +214,50 @@
 			color: #FA3;
 			text-decoration: none;
 		}
+		.main-title-right-welcome{
+			color: #FFF !important;
+		}
 		.main-title-left{
 			float: left;
-			margin-top: 8px;
+			margin-left: 40px;
+			margin-top:8px ;
+		}
+		ul.main-title-ul{
+			height: 64px;
+		}
+		ul.main-title-ul li{
+			float: left;
+			height: 64px;
+			line-height: 64px;
+		}
+		.tree li ul li{
+			
+		}
+		.textbox-invalid {
+			border-color: #DDDDDD;
+		}
+		.datagrid-body::-webkit-scrollbar {
+			height: 15px;
 		}
 </style>
 </head>
-<body>
-<div th:fragment="top">
+<body style="background: #E5E8EC;">
+
+	<div th:fragment="top">
 			<div class="logo-box">
-				<img src="/img/logo2.png" alt="" style="width:548px;height: 64px;margin-top: 8px;">
-			</div>
-			<div class="login-list">
-				<a href="/login/index?c=factory">工厂版</a>
-				<a href="/login/index?c=group">集团版</a>
+				<img src="/img/logo.png" alt="" style="width:160px;height: 64px">
 			</div>
 	</div>
 	<div th:fragment="footer">
-		
-		<div>Copyright @ 2018 陕西天远电子科技有限公司&nbsp;备案号：陕ICP备19037475号-1
+		<div class="bottom-list">
+				<a>帮助中心</a>
+				<a>关于我们</a>
+				<a>商户合作</a>
+				<a>平台管理</a>
+		</div>
+		<div style="padding-bottom: 16px;">版权公告：2020&nbsp;&nbsp;陕西天远电子科技有限公司&nbsp;&nbsp;版权所有
 		</div>
 	</div>
+
 </body>
 </html>

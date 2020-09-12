@@ -12,6 +12,7 @@ public class LimitBean {
 	private int parentid;//上一级id
 	private String name;//权限名称
 	private String url;//路径
+	private String icon;
 	private int isspecial;
 	public int getId() {
 		return id;
@@ -42,6 +43,13 @@ public class LimitBean {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	public int getIsspecial() {
 		return isspecial;

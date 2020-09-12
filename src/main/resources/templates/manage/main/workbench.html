@@ -3,27 +3,33 @@
 <head th:replace="manage/shared/_layout::header('工作台')">
 </head>
 <style>
-img{
-	width: 720px;
-    height: 300px;
-    margin: 0 auto;
-    display: block;
-    margin-top: calc(25% - 150px );
-}
+    html,body{
+        width: 99%;
+        height: 99%;
+    }
 </style>
-<body>
-<input type="hidden" id="welmanager" th:value="${welmanager}">
-<img alt="" src="/images/home_logo.png">
+<body style="text-align: center;height: 100%;">
+<div style="margin-top: 200px;">
+<!--    <p>aa</p>-->
+
+    <img src="/img/home.png" />
+    <!--<div style="margin-top: 200px;">
+        <img alt="" src="/img/logomain.png" style="width: 225px;height: 96px;margin-bottom: 20px;">
+        <div style="font-size: 32px;color: #999999;">
+            德&nbsp;&nbsp;仁&nbsp;&nbsp;医&nbsp;&nbsp;护&nbsp;&nbsp;欢&nbsp;&nbsp;迎&nbsp;&nbsp;您
+        </div>
+    </div>-->
+</div>
 <script>
 var welmanager='';
-    $(function () {
-    	welmanager = $('#welmanager').val()
-        $('body').css('background', 'url('+welmanager+')');
-        $('body').css('filter', "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')");
-        $('body').css('-moz-background-size', '100% 100%');
-        $('body').css('background-size', '100% 100%');
-        $('body').css('background-attachment', 'fixed');
-    })
+    // $(function () {
+    // 	welmanager = $('#welmanager').val()
+    //     $('body').css('background', 'url('+welmanager+')');
+    //     $('body').css('filter', "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')");
+    //     $('body').css('-moz-background-size', '100% 100%');
+    //     $('body').css('background-size', '100% 100%');
+    //     $('body').css('background-attachment', 'fixed');
+    // })
 </script>
 </body>
 </html>

@@ -60,45 +60,12 @@ public class OrganizationController extends BaseManageController {
 		Initialize();
 		if(page<1)page=1;
 		if(rows<1)rows=10;
-		String where = getWhere();
-		if(status>0) {
-			int s = status-1;
-			where +=  " and status = "+s;
-		}
+		String where = "code ='"+getCode()+"'";
 		if (keyword !=null && !keyword.equals(""))
             where += " and (name like '%" + keyword + "%' or abbr like '%" + keyword + "%')";
 		String order = " code asc";
 		EntityPager<OrganizationBean> list = organizationRepository.pageSelect(page,rows,where,order);
 		return list;
-	}
-	
-	@PostMapping("organaudit/list")
-	public EntityPager<OrganizationBean> list(int page,int rows,int status){
-		Initialize();
-		if(page<1)page=1;
-		if(rows<1)rows=10;
-		String where = getWhere();
-		where +=  " and status = "+status;
-		String order = " code asc";
-		EntityPager<OrganizationBean> list = organizationRepository.pageSelect(page,rows,where,order);
-		return list;
-	}
-	
-	private String getWhere() {
-		Initialize();
-		String prov = this.getCode().substring(0, 2);
-		String city = this.getCode().substring(2, 4);
-		String zone = this.getCode().substring(4, 6);
-		String where = "";
-        if (this.getOrganLevel() == 0)//国家级
-            where = "left(code,2) <> '00' and substring(code,3,2) = '00' and substring(code,5,2) = '00'";
-        if (this.getOrganLevel() == 1)//省级
-            where = "left(code,2)='" + prov + "' and substring(code,3,2) <> '00' and substring(code,5,2) = '00'";
-        if (this.getOrganLevel() == 2)//市级
-            where = "left(code,2)='" + prov + "' and substring(code,3,2) = '" + city + "' and substring(code,5,2) <> '00'";
-        if (this.getOrganLevel() == 3)//区级
-            where = "left(code,2)='" + prov + "' and substring(code,3,2) = '" + city + "' and substring(code,5,2) = '" + zone + "'";
-        return where;
 	}
 	
 	//添加修改

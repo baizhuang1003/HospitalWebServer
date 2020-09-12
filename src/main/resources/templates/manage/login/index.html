@@ -1,72 +1,71 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:include="shared/_layout::header('医护登录')">
+<head th:include="shared/_loginlayout::header('医护登录')">
 </head>
 <body>
-	<style>
+<style>
 * {
-	padding: 0;
-	margin: 0;
+   padding: 0;
+   margin: 0;
 }
 
 .container {
-	background: url('/img/bg.jpg') left top/100% no-repeat;
-	height: 100%;
+   background: url('/img/bg.jpg') left top/100% no-repeat;
+   height: 100%;
 }
 
 .validatebox-text {
-	font-size: 14px;
+   font-size: 14px;
 }
 
 .doctorimg {
-	height: 302px;
-	width: 207px;
-	background-image: url(/img/login_doctor.png);
-	left: calc(50% - 200px);
-	top: calc(50% - 163px);
-	margin-top: 99px;
-	margin-left: 91px;
+   height: 302px;
+   width: 207px;
+   background-image: url(/img/login_doctor.png);
+   left: calc(50% - 200px);
+   top: calc(50% - 163px);
+   margin-top: 99px;
+   margin-left: 91px;
 }
 
 .header-img {
-	height: 36px;
-	width: 204px;
-	background-image: url(/img/login_logo.png);
-	left: calc(50% - 200px);
-	top: calc(50% - 163px);
-	margin-top: 99px;
-	margin-left: 141px;
+   height: 36px;
+   width: 204px;
+   background-image: url(/img/login_logo.png);
+   left: calc(50% - 200px);
+   top: calc(50% - 163px);
+   margin-top: 99px;
+   margin-left: 141px;
 }
 
 .title {
-	text-align: center;
-	color: #4F4F4F;
-	line-height:10px !important;
+   text-align: center;
+   color: #4F4F4F;
+   line-height:10px !important;
 } 
 
 .forget {marfon-top "-10px"
-	
+   
 }
 
 .wangji li {
-	display: inline-block;
-	list-style: none;
-	margin-bottom: 19px;
+   display: inline-block;
+   list-style: none;
+   margin-bottom: 19px;
 }
 
 .wangji li:hover {
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .wangji li a {
-	text-decoration: none;
+   text-decoration: none;
 }
 </style>
-	<div class="container" style="height: 100%">
+	<div class="container">
 		<!--  <div class="top" th:include="shared/_layout::top"></div>-->
 		<div class="usecontainer">
-			<div id="banner-box"
-				style="width: 300px; height: 526px; float: left; overflow: hidden; border-radius: 10px;">
+			<div id="banner-box" style="width: 300px; height: 526px; float: left; overflow: hidden; border-radius: 10px;">
 				<div class="doctorimg"></div>
 			</div>
 			<div class="login-box" style="left: calc(50% - 285px);">
@@ -104,7 +103,6 @@
 					</div>
 				</form>
 			</div>
-			<div class="clearfix"></div>
 		</div>
 		<div class="footer" th:include="shared/_layout::footer"
 			style="color: #a8a8a8; position: absolute; bottom: 30px; left: calc(50% - 190px);"></div>

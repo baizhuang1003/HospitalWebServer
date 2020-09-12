@@ -38,7 +38,8 @@ public class NurseryManageController extends BaseManageController {
 	@PostMapping("nursery/list")
 	public EntityPager<NurseryBean> list(int page,int rows,String pid){
 		Initialize();
-        EntityPager<NurseryBean> list = nurseryRepository.pageSelect(page, rows, "", "id");
+		String where ="orgcode ='"+getCode()+"' ";
+        EntityPager<NurseryBean> list = nurseryRepository.pageSelect(page, rows, where, "id");
         return list;
 	}
 	
@@ -57,6 +58,7 @@ public class NurseryManageController extends BaseManageController {
 	public AjaxResult edit(NurseryBean entity) {
 		Initialize();
         if (nurseryRepository.exits("id<>"+entity.getId()+" and name='"+entity.getName()+"'")) return onFailed("托养方式已存在");
+        entity.setOrgcode(getCode());
         try {
         	if (entity.getId()<1) nurseryRepository.insertRow(entity);
         	else nurseryRepository.updateRow(entity);

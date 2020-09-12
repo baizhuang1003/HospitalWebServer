@@ -19,23 +19,13 @@
 			        <th:block th:if="${entity.IsDelete}">
 			        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
 			        </th:block> 
-			        <th:block th:if="${entity.IsAudit}">
-			            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-form" onclick="auditModel()">送审</a>
-			        </th:block>
+			        
 			        <th:block th:if="${entity.IsEditAcount}">
 			        	<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-man" onclick="editMan()">管理员账号</a>
 			        </th:block>
-			        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-search"  onclick="toggleSearch()">高级查询</a>
+			        
 			        </td>
 		       <tr/>
-		       <tr>
-		       		<td>
-		       			<label style="width:60px;display: inline-block;margin-left: 12px">认证状态:</label>
-				       	<input id="status" name="status" class="easyui-textbox" style="width:120px;">
-				       	<input id="keyword" name="keyword" class="easyui-textbox" style="width:160px;height:32px;" prompt="输入搜索关键字">
-				        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-search" onclick="searchModel()">查询</a>
-		       		</td>
-		       </tr>
     		</table>
     	</form>
 		
@@ -66,7 +56,6 @@
 </div>
 <script type="text/javascript">
 $(function(){
-	onState();
 	makeGrid();
 })
 function makeGrid() {
@@ -238,18 +227,6 @@ function onState(){
 	    	"text":"已认证"
 	    }]
 	})
-}
-
-function toggleSearch() {
-	$('#tbQuery').find('tr:eq(1)').toggle();
-	if ($('#tbQuery').find('tr:eq(1)').is(":hidden")) {
-		$('#lt').layout('panel', 'north').panel('resize', { height: 38 });
-		$('#lt').layout('resize');
-	}
-	else {
-		$('#lt').layout('panel', 'north').panel('resize', { height: 76 });
-		$('#lt').layout('resize');
-	}
 }
 </script>
 </body>

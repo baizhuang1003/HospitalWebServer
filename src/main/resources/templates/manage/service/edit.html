@@ -6,17 +6,14 @@
 <form method="post">
 	<input type="hidden" name="id" id="id" th:value="${entity.id}">
 	<input type="hidden" name="orgcode" id="orgcode" th:value="${entity.orgcode}">
+	<input type="hidden" name="nerseryid" id="nerseryid" th:value="${entity.nerseryid}">
 	<table>
         <tr style="margin-bottom: 10px; display: inline-block;">
             <td style="width:300px;">
             	<input class = "easyui-numberbox" name="code" id="code" data-options="label:'序号',required:true" style="width: 100%;" th:value="${entity.code}"/>
             </td>
         </tr>
-        <tr style="margin-bottom: 10px; display: inline-block;">
-            <td style="width:300px;">
-            	<input class = "easyui-textbox" name="nerseryid" id="nerseryid" data-options="label:'托养方式',required:true" style="width: 100%;" th:value="${entity.nerseryid}"/>
-            </td>
-        </tr>
+        
         <tr style="margin-bottom: 10px; display: inline-block;">
             <td style="width:300px;">
             	<input class = "easyui-textbox" name="name" id="name" data-options="label:'服务名称',required:true" style="width: 100%;" th:value="${entity.name}"/>
@@ -61,14 +58,6 @@ $(function () {
 	        "text":"是"
 	    }]
     });
-	
-	$('#nerseryid').combobox({
-		editable: false,
-		method:'get',
-		url:'/manage/nursery/dictlist',
-	    valueField:'id',
-	    textField:'text'
-	});
 });
 </script>
 </body>

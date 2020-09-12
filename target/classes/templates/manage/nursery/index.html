@@ -5,9 +5,15 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="north" data-options="region:'north'" style="height:38px; ">
-        <th:block th:if="${entity.IsEdit}">
-        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-edit'" onclick="editModel()">编辑</a>
-        </th:block>
+        			<th:block th:if="${entity.IsAdd}">
+	    				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
+			    	</th:block>
+			        <th:block th:if="${entity.IsEdit}">
+			        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-edit'" onclick="editModel()">修改</a>
+			        </th:block>
+			        <th:block th:if="${entity.IsDelete}">
+			        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-remove'" onclick="destroyModel()">删除</a>
+			        </th:block> 
     </div>
     <div data-options="region:'center',title:'托养方式列表',iconCls:'icon-grid'">
         <table id="dg"></table>

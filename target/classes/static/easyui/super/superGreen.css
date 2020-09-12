@@ -1,4 +1,4 @@
-@charset "UTF-8";
+-@charset "UTF-8";
 * {
   word-wrap: break-word; }
 
@@ -3118,11 +3118,11 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
 /*头部*/
 .super-north {
   height: 50px;
-  background-color: #1abc9c; }
+  background-color: #1C68BC; }
   .super-north .super-navigation {
     height: 50px;
-    display: flex;
-    justify-content: flex-start; }
+    display: initial;
+    }
   .super-north .super-navigation-title {
     width: 210px;
     height: 50px;
@@ -3131,16 +3131,18 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
     font-size: 18px;
     font-weight: bold;
     padding-left: 40px;
-    background-color: #16a085; }
+    background-color: #1C68BC;
+    float: left; }
   .super-north .super-navigation-main {
     height: 50px;
-    width: 100%;
     color: #fff;
     font-size: 14px;
     text-align: center;
     margin-left: -250px;
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    float: right;
+    padding-right: 20px; }
     .super-north .super-navigation-main ul {
       overflow: hidden;
       display: flex;
@@ -3265,7 +3267,7 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
     background: #eee; }
 
 .accordion .accordion-header-selected {
-  box-shadow: inset 3px 0px 0px 0px #1abc9c; }
+  box-shadow: inset 3px 0px 0px 0px #1C68BC; }
   .accordion .accordion-header-selected .panel-title {
     color: #000; }
 
@@ -3306,10 +3308,10 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
 
 /*选项卡*/
 .tabs li.tabs-selected a.tabs-inner {
-  box-shadow: inset 0px 1px 0px 0px #1abc9c;
+  box-shadow: inset 0px 1px 0px 0px #1C68BC;
   background: #fff;
-  color: #1abc9c;
-  border-top: 1px solid #1abc9c;
+  color: #1C68BC;
+  border-top: 1px solid #1C68BC;
   font-weight: normal; }
 
 .tabs-title {
@@ -3327,7 +3329,7 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
 
 .tabs li a.tabs-inner:hover {
   background: #fff;
-  color: #1abc9c; }
+  color: #1C68BC; }
 
 .tabs li.tabs-selected a.tabs-inner:hover {
   background: #fff; }
@@ -3347,10 +3349,10 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
   border-radius: 0px; }
 
 .tabs-header-left .tabs li.tabs-selected a.tabs-inner {
-  box-shadow: inset 1px 0px 0px 0px #1abc9c;
+  box-shadow: inset 1px 0px 0px 0px #1C68BC;
   background: #fff;
-  color: #1abc9c;
-  border-left: 1px solid #1abc9c; }
+  color: #1C68BC;
+  border-left: 1px solid #1C68BC; }
 
 /*按钮*/
 .easyui-linkbutton.l-btn {
@@ -3409,7 +3411,7 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
   border-radius: 13px; }
 
 .switchbutton-on {
-  background: #1abc9c; }
+  background: #1C68BC; }
 
 /*datagrid*/
 .datagrid-header,
@@ -3437,7 +3439,7 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
 .slider-handle {
   width: 16px;
   height: 16px;
-  background: #1abc9c;
+  background: #1C68BC;
   border-radius: 50%;
   margin-top: -8px; }
 
@@ -3446,7 +3448,7 @@ Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高
 
 /*下拉框*/
 .combobox-item-selected {
-  background-color: #1abc9c; }
+  background-color: #1C68BC; }
 
 .combobox-item,
 .combobox-group,

@@ -2,39 +2,262 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header(title)">
 <meta charset="UTF-8">
-<title th:text="${title}">title</title>
-<link rel="shortcut icon" href="/images/favicon.ico">
-<link rel="stylesheet" href="/easyui/themes/gray/easyui.css">
-<link rel="stylesheet" th:href="${'/easyui/super/superBlue.css?_='+(new java.util.Date().getTime())}">
-<link rel="stylesheet" href="/easyui/super/manage.css">
-<link rel="stylesheet" type="text/css" href="/kindeditor/themes/default/default.css" />
-<link rel="stylesheet" href="/easyui/themes/icon.css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<link rel="shortcut icon" href="/img/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icons/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/gray/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/superGreen.css" />
 <script src="/easyui/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
-<script src="/easyui/jquery.common.js" type="text/javascript" charset="utf-8"></script>
-<script th:src="${'/easyui/super/super.js?_='+(new java.util.Date().getTime())}" charset="utf-8"></script>
-<script src="/kindeditor/kindeditor-all-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="/kindeditor/lang/zh-CN.js" type="text/javascript" charset="utf-8"></script>
-<style>
-#iframeScreen{
-	width:100%;
-	height: 160%;
-}
+<script src="/sui/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="/sui/js/selected.js" type="text/javascript" charset="utf-8"></script>
+<title th:text="${title}">Title</title>
+<style type="text/css">
+	html,body{
+		font-size: 14px;
+		color: #333;
+	}
+	h3{
+		line-height: 40px;
+		color:#1abc9c;
+	}
+	.top{
+		height: 80px;padding: 0 15%;
+		background: #FFFFFF !important;
+	}
+	.container{
+		background: url('/img/loginbg.png');background-size: 100% 100%;padding: 16px 15%;
+	}
+	.footer{
+		text-align: center;color: #a8a8a8;
+	}
+	.footer div:last-child{
+		font-size: 12px;
+	}
+	.login-box{
+		margin:auto;margin-top: 40px;background: #fff;border-radius: 10px;border: 1px solid #eee;padding: 15px;position: relative;width: 400px;
+	}
+	.register-box{
+		background: #fff;border-radius: 10px;border: 1px solid #eee;padding: 15px;position: relative;width: 400px;margin:auto;margin-top: 40px;
+	}
+	h3.title{
+		padding: 0 20px;font-size: 18px;color:#666;
+	}
+	.login-btn-register,
+	.login-btn-register:link{
+		padding: 0 0 10px 20px;
+	    color: #CCCCCC;
+	}
+	.login-btn-register:hover{
+		color: #00D0A7;
+	}
+	.logo-box{
+		float: left;
+		margin-top: 8px;
+	}
+	.login-list{
+		float: right;
+		line-height: 80px;
+		font-size: 16px;
+	}
+	.login-list a,
+	.login-list a:link{
+		padding: 0 16px;
+		text-decoration: none;
+		color: #666;
+	}
+	.login-list a:hover{
+		color: #FA3;
+		text-decoration: none;
+	}
+	
+	.bottom-list{
+		font-size: 12px;
+		display: inline-block;
+		margin-bottom: 8px;
+		margin-top: 16px;
+	}
+	.bottom-list a{
+		padding: 0 12px;
+		color: #38adff;
+		text-decoration: none;
+		border-right: 1px solid #d6d1d1;
+	}
+	.bottom-list a:last-child{
+		border-right: none;
+	}
+	.bottom-list a:hover{
+		color: #E60044;
+	}
+	
+	
+	ul.nav{
+		padding: 8px 0;
+		margin: 0;
+		line-height: 30px;
+		color: #000;
+		font-size: 13px;
+		border-right: 1px solid #EEE;
+	}
+	
+	ul.nav li.item>div{
+		display: block;
+		cursor: pointer;
+		padding: 0px 16px;
+		color: #999;
+		font-size:12px;
+	}
+	ul.nav li.item>div img{
+		width: 16px;
+		height: 16px;
+		border: none;
+		margin-bottom: -2px;
+		margin-right: 8px;
+	}
+	
+	ul.nav-child{
+		
+	}
+	ul.nav-child li>span{
+		padding-left: 45px;
+	}
+	ul.nav-child li{
+		color: #333;
+		line-height: 28px;
+		cursor: pointer;
+	}
+	ul.nav-child li:hover{
+		color: #FFFFFF;
+    	background: #1abc9c;
+	}
+	
+	ul.nav-child li>i{
+	    font-size: 12px;
+	    margin-top: 9px;
+	    margin-left:6px;
+	    display: none;
+	}
+	ul.nav-child li.active{
+		    color: #FFFFFF;
+    		background: #1abc9c;
+	}
+	ul.nav-child li.active>i{
+		display: inline-block;
+		
+	}
+	
+	       .loader {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .loader-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 998;
+            background: #333;
+            filter: alpha(Opacity=20);
+            -moz-opacity: 0.2;
+            opacity: 0.2;
+        }
+
+        .loader-message {
+            width: 200px;
+            position: absolute;
+            z-index: 999;
+            background: #E0ECFF;
+            color: #134da5;
+            height: 30px;
+            line-height: 30px;
+            border: 2px solid #95B8E7;
+            top: 50%;
+            left: 50%;
+            font-size: 14px;
+            right: 50%;
+            bottom: 50%;
+            margin-top: -50px;
+            margin-left: -100px;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .loader-message img {
+                vertical-align: middle;
+        }
+        .main-title-right{
+        	float: right;padding: 0 24px 0 48px;line-height: 80px;font-size: 14px;
+			background: url(/img/title-right-bg.png) no-repeat;
+        }
+        .main-title-right a{
+        	color: #FFF;
+        	text-decoration: none;
+        	padding: 0px 12px;
+        	border-right: 1px solid #eee;
+        	cursor: pointer;
+        }
+        .main-title-right a:last-child{
+        	border-right:none;
+        }
+        .main-title-right a:hover {
+			color: #FA3;
+			text-decoration: none;
+		}
+		.main-title-right-welcome{
+			color: #FFF !important;
+		}
+		.main-title-left{
+			float: left;
+			margin-left: 40px;
+			margin-top:8px ;
+		}
+		ul.main-title-ul{
+			height: 64px;
+		}
+		ul.main-title-ul li{
+			float: left;
+			height: 64px;
+			line-height: 64px;
+		}
+		.tree li ul li{
+			
+		}
+		.textbox-invalid {
+			border-color: #DDDDDD;
+		}
+		.datagrid-body::-webkit-scrollbar {
+			height: 15px;
+		}
 </style>
 </head>
-<body>
-<div th:fragment="screen">
-	<form id="uploadForm" action="/manage/file/image" method="post" enctype="multipart/form-data" style="display:none;">
-		<input type="hidden" name="mDir" id="mDir" />
-		<input type="file" name="mFile" id="mFile" />
-	</form>
-	<div id="dlgscreen" class="easyui-dialog" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgscreen-buttons',fit:true">
-		<iframe id="iframeScreen" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+<body style="background: #E5E8EC;">
+
+	<div th:fragment="top">
+			<div class="logo-box">
+				<img src="/img/logo.png" alt="" style="width:160px;height: 64px">
+			</div>
 	</div>
-	<div id="dlgscreen-buttons">
-		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript: $('#dlgscreen').dialog('close')" style="width: 80px; color: #FFFFFF; background: #1c68bc; border: 1px solid #1c68bc;">关闭</a>
+	<div th:fragment="footer">
+		<div class="bottom-list">
+				<a>帮助中心</a>
+				<a>关于我们</a>
+				<a>商户合作</a>
+				<a href="/login/index?c=platform">平台管理</a>
+		</div>
+		<div style="padding-bottom: 16px;">版权公告：2019&nbsp;&nbsp;西安多美装饰有限公司&nbsp;&nbsp;版权所有
+		</div>
 	</div>
-</div>
+
 </body>
 </html>

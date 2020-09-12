@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tianyuan.bean.ServiceBean;
 import com.tianyuan.core.AjaxResult;
-import com.tianyuan.core.EntityDrop;
 import com.tianyuan.core.EntityPager;
 import com.tianyuan.model.UserOverload;
 import com.tianyuan.repository.ServiceRepository;
@@ -34,10 +33,10 @@ public class ServiceController extends BaseManageController {
 	}
 	
 	@PostMapping("service/list")
-	public EntityPager<Map<String, Object>> list(int page,int rows,int nid){
+	public EntityPager<Map<String, Object>> list(int page,int rows){
 		Initialize();
-        String where ="1=1";
-        if(nid>0) where += " and nerseryid= "+nid;
+        String where ="orgcode='"+getCode()+"'";
+        
         return serviceRepository.pageSelectAll(page, rows, where, "updatetime desc");
 	}
 	
@@ -55,9 +54,10 @@ public class ServiceController extends BaseManageController {
 	@PostMapping("service/edit")
 	public AjaxResult edit(ServiceBean entity) {
 		Initialize();
-        if (serviceRepository.exits("id<>"+entity.getId()+" and name1='"+entity.getName1()+"'")) return onFailed("服务项目已存在");
+        if (serviceRepository.exits("id<>"+entity.getId()+"and orgcode='"+entity.getOrgcode()+"' and name1='"+entity.getName1()+"'")) return onFailed("服务项目已存在");
         entity.setCreateuid(getUserId());
         entity.setUpdateuid(getUserId());
+        entity.setOrgcode(getCode());
         try {
         	if (entity.getId()<1) serviceRepository.insertRow(entity);
         	else serviceRepository.updateRow(entity);

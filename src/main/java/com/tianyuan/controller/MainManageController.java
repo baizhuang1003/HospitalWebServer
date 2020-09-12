@@ -17,7 +17,6 @@ import com.tianyuan.bean.UserBean;
 import com.tianyuan.core.AjaxResult;
 import com.tianyuan.core.Common;
 import com.tianyuan.core.EasyTree;
-import com.tianyuan.core.EntityPager;
 import com.tianyuan.core.SMSHelper;
 import com.tianyuan.model.UserModel;
 import com.tianyuan.repository.DeptRepository;
@@ -63,6 +62,7 @@ public class MainManageController extends BaseManageController {
 		if (System_Organ_Level == 1) systemcode = this.getCode().substring(0, 2) + "0000";
 		else if (System_Organ_Level == 2) systemcode = this.getCode().substring(0, 4) + "00";
 		entity.setSystemname(organizationRepository.selectRow(" code='"+systemcode+"'").getName());
+		System.out.println(getCode());
 		model.addObject("entity", entity);
 		model.setViewName(prefix+"/main/index");
 		return model;
@@ -291,6 +291,48 @@ public class MainManageController extends BaseManageController {
         }
         return result;
     }
+	
+	@GetMapping("main/limits")
+	public AjaxResult limitList() {
+		 UserBean user = memberRepository.selectRow(" id='"+this.getUserId()+"' ");
+		List<LimitBean> resultList = new ArrayList<LimitBean>();
+		if (user == null || user.getId()=="")
+			return onSuccess("resultList", "success");
+		
+		List<LimitBean> list = limitRepository.selectAll("", "sort");
+		if (user.getIsmanager() == 1)
+			return onSuccess(list, "success");
+		
+		if (user.getRoleid()=="")
+			return onSuccess(resultList, "success");
+		RoleBean role = roleRepository.selectRow("id = " + user.getRoleid());
+		if (role == null || role.getId()=="")
+			return onSuccess(resultList, "success");
+		String limits = role.getLimits();
+		if (limits == null || limits.equals(""))
+			return onSuccess(resultList, "success");
+
+		String[] arrString = limits.split(",");
+
+		List<Integer> ids = new ArrayList<Integer>();
+		for (String str : arrString) {
+			if (str == null)
+				continue;
+			if (str.equals(""))
+				continue;
+			if (str.equals("null"))
+				continue;
+			ids.add(Integer.parseInt(str));
+		}
+
+		for (LimitBean item : list) {
+			if (ids.contains(Integer.parseInt(item.getId()+"")))
+				resultList.add(item);
+		}
+		
+		return onSuccess(resultList, "success");
+		
+	}
 	
 	//修改密码
 	@GetMapping("main/editpwd")

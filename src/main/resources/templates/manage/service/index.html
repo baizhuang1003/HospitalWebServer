@@ -5,10 +5,7 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="north" data-options="region:'north'" style="height:38px; ">
-    	
-       <label style="width:60px;display: inline-block;">托养方式:</label>
-       <input id="nursery" name="nursery" class="easyui-textbox" style="width:120px;">
-        
+       
         <th:block th:if="${entity.IsAdd}">
     		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'" onclick="newModel()" style="margin-left: 10px;">添加</a>
     	</th:block>
@@ -33,7 +30,6 @@
 <script type="text/javascript">
 var id = 0;
 $(function(){
-	nurseryDrop();
 	makeGrid();
 })
 function makeGrid() {
@@ -42,7 +38,7 @@ function makeGrid() {
 		idField: 'id',
 		rownumbers: true,
 		singleSelect: true,
-		queryParams: {nid:id},
+		queryParams: {},
 		fit:true,
 		pagination: true,
 		rownumbers:true,
@@ -50,8 +46,6 @@ function makeGrid() {
 		pageList: [10, 20, 30, 40, 50],
 		columns: [
         	[
-        		//{ field:'code',title:'编号',width:150,align:'center' },
-        		{ field:'nurseryname',title:'托养方式',width:150,align:'center' },
         		{ field:'name',title:'项目名称',width:150,align:'center' },
         		{ field:'name1',title:'具体服务名称',width:150,align:'center' },
         		{ field:'fee',title:'收费标准',width:120,align:'center' },
@@ -114,20 +108,6 @@ function saveModel() {
     });
 }
 
-function nurseryDrop(){
-	$('#nursery').combobox({
-		editable: false,
-	    url: '/manage/nursery/dictlist',
-	    method:'get',
-	    valueField: 'id',
-	    textField: 'text',
-	    onSelect: function(data){
-	    	id=data.id;
-	    	makeGrid();
-        }
-	});
-	
-}
 </script>
 </body>
 </html>

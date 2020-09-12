@@ -3,7 +3,7 @@ package com.tianyuan.bean;
 public class NurseryBean {
 
 	public  int id,code,status;
-	public String  name,remark;
+	public String orgcode,  name,remark;
 	public int getId() {
 		return id;
 	}
@@ -15,6 +15,13 @@ public class NurseryBean {
 	}
 	public void setCode(int code) {
 		this.code = code;
+	}
+	
+	public String getOrgcode() {
+		return orgcode;
+	}
+	public void setOrgcode(String orgcode) {
+		this.orgcode = orgcode;
 	}
 	public int getStatus() {
 		return status;

@@ -22,8 +22,8 @@ public class NurseryRepository implements EntityRepository<NurseryBean> {
 	public boolean insertRow(NurseryBean t) {
 		// TODO Auto-generated method stub
 		String sql ="INSERT INTO t_nursery" + 
-				"( name, code, status, remark) " + 
-				"VALUES ('"+t.getName()+"', "+t.getCode()+", "+t.getStatus()+", '"+t.getRemark()+"');";
+				"( name, orgcode,code, status, remark) " + 
+				"VALUES ('"+t.getName()+"','"+t.getOrgcode()+"', "+t.getCode()+", "+t.getStatus()+", '"+t.getRemark()+"');";
 		return ef.update(sql);
 	}
 
@@ -31,7 +31,7 @@ public class NurseryRepository implements EntityRepository<NurseryBean> {
 	public boolean updateRow(NurseryBean t) {
 		// TODO Auto-generated method stub
 		String sql =" UPDATE t_nursery " + 
-				"SET  name = '"+t.getName()+"', code = "+t.getCode()+", status = "+t.getStatus()+", remark = '"+t.getRemark()+"' " + 
+				"SET  name = '"+t.getName()+"',orgcode='"+t.getOrgcode()+"', code = "+t.getCode()+", status = "+t.getStatus()+", remark = '"+t.getRemark()+"' " + 
 				"WHERE  id ="+ t.getId();
 		return ef.update(sql);
 	}
